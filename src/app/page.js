@@ -1,11 +1,11 @@
 'use client';
 
-import HeroCortez from '@tizzle-fe/components/agent/cortez/Hero';
+import Cortez from '@tizzle-fe/components/agent/cortez/Cortez';
 
 export default function Home() {
   return (
     <>
-      <HeroCortez />
+      <Cortez />
     </>
   );
 }

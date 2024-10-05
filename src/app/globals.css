@@ -45,3 +45,54 @@ body {
   animation: marquee 40s linear infinite;
   width: 400%;
 }
+
+@keyframes electric {
+  0%,
+  100% {
+    box-shadow:
+      0 0 10px #008a57,
+      0 0 20px #008a57;
+  }
+  50% {
+    box-shadow:
+      0 0 20px #00ec97,
+      0 0 30px #00ec97;
+  }
+}
+
+.electric-effect {
+  animation: electric 2s infinite;
+}
+
+.box-shadow-active {
+  box-shadow:
+    0 0 10px #00ec97,
+    0 0 20px #00ec97;
+}
+
+.lightning-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.lightning-underline::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 10px;
+  border-radius: 100px;
+  background: linear-gradient(to right, #00ec97, #3046c7);
+  bottom: -10px;
+  left: 0;
+  transform: skewY(-2deg);
+  animation: flicker 0.1s infinite alternate;
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 1;
+  }
+}
