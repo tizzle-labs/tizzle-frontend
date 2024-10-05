@@ -1,3 +1,4 @@
 import { Wave } from './Wave';
+import { WaveAkira } from './WaveAkira';
 
-export { Wave };
+export { Wave, WaveAkira };
