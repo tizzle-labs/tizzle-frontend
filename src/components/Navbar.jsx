@@ -21,6 +21,7 @@ const Navbar = () => {
               alt="Tizzle Logo"
               width={120}
               height={40}
+              className="w-auto h-auto"
             />
           </div>
         </Link>
