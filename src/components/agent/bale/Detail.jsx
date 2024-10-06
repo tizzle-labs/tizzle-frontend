@@ -2,41 +2,43 @@ import AgentSelector from '@tizzle-fe/components/common/selector/AgentSelector';
 import dynamic from 'next/dynamic';
 import { FaCompass, FaDna } from 'react-icons/fa';
 
-const AkiraModel = dynamic(() => import('./Model'), {
+const BaleModel = dynamic(() => import('./Model'), {
   ssr: false,
 });
 
 const Detail = () => {
   return (
     <div className="text-center my-20">
-      <h1 className="text-6xl font-bold mb-20 lightning-underline-akira">
-        AKIRA
+      <h1 className="text-6xl text-[#525B88] font-bold mb-20 lightning-underline-bale">
+        BALE
       </h1>
       <div className="flex justify-between items-start px-40 whitespace-break-spaces">
         <div className="w-1/2">
           <div className="w-96 h-96 mb-4">
-            <AkiraModel />
+            <BaleModel />
           </div>
           <div className="mt-12">
-            <h3 className="text-sm text-left mb-4">SELECT AGENT</h3>
+            <h3 className="text-sm text-left mb-4 text-[#525B88]">
+              SELECT AGENT
+            </h3>
             <AgentSelector />
           </div>
         </div>
         <div className="max-w-3xl text-left pl-[300px]">
-          <h2 className="text-3xl mb-2">Akira</h2>
-          <p className="mb-2 text-lg text-primary">Nature's Guardian</p>
-          <p className="mb-4 text-sm overflow-hidden">
-            Akira is a mystical kunoichi and spirit warrior from Mount Fuji.
-            With her swift agility and mastery of nature, she protects ancient
-            secrets while striking fear into her enemies. Her presence embodies
-            the serene beauty and fierce spirit of her homeland.
+          <h2 className="text-3xl mb-2 text-[#525B88]">Bale</h2>
+          <p className="mb-2 text-lg text-primary">Sleuth Jester</p>
+          <p className="mb-4 text-sm overflow-hidden text-[#525B88]">
+            Bale is an enigmatic and quick-witted agent known for his sharp
+            humor and penchant for riddles. Despite his playful demeanor, he is
+            an exceptionally skilled investigator whose origins remain shrouded
+            in mystery.
           </p>
           <div className="flex justify-start mb-8">
             <span className="text-xs bg-gray-500 px-2 py-1 rounded-full mr-2">
-              Spirit
+              Humorist
             </span>
             <span className="text-xs bg-gray-500 px-2 py-1 rounded-full">
-              Emphatic
+              Confident
             </span>
           </div>
           <div className="mb-8 text-sm">
@@ -45,17 +47,14 @@ const Detail = () => {
                 <FaCompass className="text-gray-400" />
                 <p className="font-semibold text-gray-400">ORIGIN:</p>{' '}
               </div>
-              <p>Mount Fuji</p>
+              <p className="text-[#525B88]">Unknown</p>
             </div>
             <div className="flex gap-10 border-b-2 border-gray-500 py-2">
               <div className="flex gap-1 items-center">
                 <FaDna className="text-gray-400" />
                 <p className="font-semibold text-gray-400">TYPE:</p>{' '}
               </div>
-              <p>
-                Kunoichi{' '}
-                <span className="text-xs font-light">(female shinobi)</span>
-              </p>
+              <p className="text-[#525B88]">Human</p>
             </div>
           </div>
           <button className="bg-white text-black hover:bg-primary px-8 py-2 rounded text-lg transition duration-300 ease-in-out">

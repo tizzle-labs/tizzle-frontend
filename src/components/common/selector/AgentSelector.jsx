@@ -19,10 +19,10 @@ const AgentSelector = () => {
       value: 'akira',
     },
     {
-      name: 'Developer',
-      img: '/assets/agents/cortez/cortez-half.png',
+      name: 'Bale',
+      img: '/assets/agents/bale/bale-half.png',
       bgClass: 'bg-white/80',
-      value: 'developer',
+      value: 'bale',
     },
   ];
 
