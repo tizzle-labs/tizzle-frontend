@@ -1,6 +1,4 @@
 import './globals.css';
-import Navbar from '@tizzle-fe/components/Navbar';
-
 import { Kanit } from 'next/font/google';
 
 const kanit = Kanit({
@@ -19,7 +17,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={kanit.className}>
-        <Navbar />
         <main>{children}</main>
       </body>
     </html>

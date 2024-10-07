@@ -1,8 +1,10 @@
 import AgentSelector from '@tizzle-fe/components/common/selector/AgentSelector';
+import { CORTEZ_AGENT } from '@tizzle-fe/components/constants/agent';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { FaCompass, FaDna } from 'react-icons/fa';
 
-const CortezModel = dynamic(() => import('./Model'), {
+const CortezModel = dynamic(() => import('../Model'), {
   ssr: false,
 });
 
@@ -13,7 +15,7 @@ const Detail = () => {
       <div className="flex justify-between items-start px-40 whitespace-break-spaces">
         <div className="w-1/2">
           <div className="w-96 h-96 mb-4 flex items-center justify-center">
-            <CortezModel />
+            <CortezModel agentName={CORTEZ_AGENT} />
           </div>
           <div className="mt-12">
             <h3 className="text-sm text-left mb-4">SELECT AGENT</h3>
@@ -54,9 +56,11 @@ const Detail = () => {
               <p>Cyborg</p>
             </div>
           </div>
-          <button className="bg-white text-black hover:bg-primary px-8 py-2 rounded text-lg transition duration-300 ease-in-out">
-            MINT
-          </button>
+          <Link href={'/agent/cortez'}>
+            <button className="bg-white text-black hover:bg-primary px-8 py-2 rounded text-lg transition duration-300 ease-in-out">
+              MINT
+            </button>
+          </Link>
         </div>
       </div>
     </div>

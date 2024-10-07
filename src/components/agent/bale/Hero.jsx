@@ -99,8 +99,8 @@ const HeroBale = () => {
         </div>
       </div>
 
-      <div className="w-full overflow-hidden whitespace-nowrap bg-[#525B88] py-4 z-40">
-        <div className="marquee-container overflow-hidden pb-4">
+      <div className="w-full overflow-hidden whitespace-nowrap bg-bale-taro py-4 z-40">
+        <div className="marquee-container overflow-hidden">
           <div className="marquee-content flex space-x-8">
             {demoArray.map((text, index) => (
               <div key={index} className="flex items-center justify-between">
@@ -126,7 +126,7 @@ const HeroBale = () => {
 
         <div
           ref={titleRef}
-          className="bg-[#DEE2FC] flex justify-center items-center text-white text-4xl"
+          className="bg-bale-taro flex justify-center items-center text-white text-4xl"
         >
           <Detail />
         </div>

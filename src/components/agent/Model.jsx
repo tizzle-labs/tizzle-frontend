@@ -2,8 +2,10 @@ import React, { useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Loader, OrbitControls, useGLTF } from '@react-three/drei';
 
-function Model() {
-  const { scene } = useGLTF('/assets/agents/cortez/model/cortez.glb');
+function Model({ agentName }) {
+  const { scene } = useGLTF(
+    `/assets/agents/${agentName}/model/${agentName}.glb`,
+  );
   const ref = useRef();
 
   useFrame(() => {
@@ -17,7 +19,7 @@ function Model() {
   );
 }
 
-const CortezModel = () => {
+const AgentModel = ({ agentName }) => {
   return (
     <>
       <Loader />
@@ -33,7 +35,7 @@ const CortezModel = () => {
         <directionalLight position={[-5, 5, 5]} intensity={1.5} />
         <directionalLight position={[5, -5, 5]} intensity={1.5} />
         <Suspense fallback={null}>
-          <Model />
+          <Model agentName={agentName} />
         </Suspense>
         <OrbitControls
           enableZoom={false}
@@ -45,4 +47,4 @@ const CortezModel = () => {
   );
 };
 
-export default CortezModel;
+export default AgentModel;
