@@ -9,6 +9,15 @@ module.exports = {
     extend: {
       colors: {
         primary: '#00EC97',
+        cortez: {
+          blue: '#203088',
+        },
+        akira: {
+          gold: '#A78450',
+        },
+        bale: {
+          taro: '#525B88',
+        },
       },
     },
   },

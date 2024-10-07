@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { FaArrowDown, FaStar } from 'react-icons/fa';
-import { Wave } from '@tizzle-fe/components/common/svg';
+import { WaveCortez } from '@tizzle-fe/components/common/svg';
 import Detail from './Detail';
 
 const HeroCortez = () => {
@@ -47,8 +47,8 @@ const HeroCortez = () => {
   };
 
   return (
-    <div className="bg-[#3046C7] flex flex-col items-center justify-center text-center">
-      <Wave />
+    <div className="bg-cortez-blue flex flex-col items-center justify-center text-center">
+      <WaveCortez />
       <div className="flex flex-col items-center justify-center py-12 -mt-64">
         <div className="relative flex mb-6">
           <div>
@@ -126,7 +126,7 @@ const HeroCortez = () => {
 
         <div
           ref={titleRef}
-          className="bg-[#203088] flex justify-center items-center text-white text-4xl"
+          className="bg-cortez-blue flex justify-center items-center text-white text-4xl"
         >
           <Detail />
         </div>

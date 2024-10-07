@@ -1,8 +1,9 @@
 import AgentSelector from '@tizzle-fe/components/common/selector/AgentSelector';
+import { AKIRA_AGENT } from '@tizzle-fe/components/constants/agent';
 import dynamic from 'next/dynamic';
 import { FaCompass, FaDna } from 'react-icons/fa';
 
-const AkiraModel = dynamic(() => import('./Model'), {
+const AkiraModel = dynamic(() => import('../Model'), {
   ssr: false,
 });
 
@@ -15,7 +16,7 @@ const Detail = () => {
       <div className="flex justify-between items-start px-40 whitespace-break-spaces">
         <div className="w-1/2">
           <div className="w-96 h-96 mb-4">
-            <AkiraModel />
+            <AkiraModel agentName={AKIRA_AGENT} />
           </div>
           <div className="mt-12">
             <h3 className="text-sm text-left mb-4">SELECT AGENT</h3>
