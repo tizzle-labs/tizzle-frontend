@@ -9,7 +9,7 @@ const AkiraModel = dynamic(() => import('../Model'), {
 
 const Detail = () => {
   return (
-    <div className="text-center my-20">
+    <div className="text-center my-20 z-30">
       <h1 className="text-6xl font-bold mb-20 lightning-underline-akira">
         AKIRA
       </h1>
@@ -25,7 +25,7 @@ const Detail = () => {
         </div>
         <div className="max-w-3xl text-left pl-[300px]">
           <h2 className="text-3xl mb-2">Akira</h2>
-          <p className="mb-2 text-lg text-primary">Nature's Guardian</p>
+          <p className="mb-2 text-lg text-primary">Nature&apos;s Guardian</p>
           <p className="mb-4 text-sm overflow-hidden">
             Akira is a mystical kunoichi and spirit warrior from Mount Fuji.
             With her swift agility and mastery of nature, she protects ancient

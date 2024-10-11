@@ -1,4 +1,5 @@
 import AgentSelector from '@tizzle-fe/components/common/selector/AgentSelector';
+import { WaveCortez } from '@tizzle-fe/components/common/svg';
 import { CORTEZ_AGENT } from '@tizzle-fe/components/constants/agent';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -10,7 +11,7 @@ const CortezModel = dynamic(() => import('../Model'), {
 
 const Detail = () => {
   return (
-    <div className="text-center my-20">
+    <div className="text-center my-20 z-30">
       <h1 className="text-6xl font-bold mb-20 lightning-underline">CORTEZ</h1>
       <div className="flex justify-between items-start px-40 whitespace-break-spaces">
         <div className="w-1/2">

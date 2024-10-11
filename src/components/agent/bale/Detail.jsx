@@ -9,7 +9,7 @@ const BaleModel = dynamic(() => import('../Model'), {
 
 const Detail = () => {
   return (
-    <div className="text-center my-20">
+    <div className="text-center my-20 z-30">
       <h1 className="text-6xl text-white font-bold mb-20 lightning-underline-bale">
         BALE
       </h1>
