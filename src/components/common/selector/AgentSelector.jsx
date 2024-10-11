@@ -9,19 +9,19 @@ const AgentSelector = () => {
     {
       name: 'Cortez',
       img: '/assets/agents/cortez/cortez-half.png',
-      bgClass: 'bg-white/80',
+      bgClass: 'bg-white',
       value: 'cortez',
     },
     {
       name: 'Akira',
       img: '/assets/agents/akira/akira-half.png',
-      bgClass: 'bg-white/80',
+      bgClass: 'bg-white',
       value: 'akira',
     },
     {
       name: 'Bale',
       img: '/assets/agents/bale/bale-half.png',
-      bgClass: 'bg-white/80',
+      bgClass: 'bg-white',
       value: 'bale',
     },
   ];

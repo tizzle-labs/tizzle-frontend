@@ -24,7 +24,7 @@ const AgentModel = ({ agentName }) => {
     <>
       <Loader />
       <Canvas
-        className="w-full h-full electric-effect bg-green-400/80"
+        className="w-full h-full electric-effect bg-primary"
         camera={{ position: [0, 0, 3], fov: 50 }}
         style={{
           borderRadius: '8px',

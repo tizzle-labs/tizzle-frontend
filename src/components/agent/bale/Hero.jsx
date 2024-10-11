@@ -48,7 +48,7 @@ const HeroBale = () => {
 
   return (
     <div className="bg-[#DEE2FC] flex flex-col items-center justify-center text-center">
-      <WaveBale />
+      <WaveBale fill={'#525B88'} />
       <div className="flex flex-col items-center justify-center py-12 -mt-64">
         <div className="relative flex mb-6">
           <div>
@@ -99,7 +99,7 @@ const HeroBale = () => {
         </div>
       </div>
 
-      <div className="w-full overflow-hidden whitespace-nowrap bg-bale-taro py-4 z-40">
+      <div className="w-full overflow-hidden whitespace-nowrap bg-bale-taro pt-4 z-40">
         <div className="marquee-container overflow-hidden">
           <div className="marquee-content flex space-x-8">
             {demoArray.map((text, index) => (
@@ -126,9 +126,12 @@ const HeroBale = () => {
 
         <div
           ref={titleRef}
-          className="bg-bale-taro flex justify-center items-center text-white text-4xl"
+          className="relative bg-bale-taro flex justify-center items-center text-white text-4xl"
         >
           <Detail />
+          <div className="absolute bottom-0 rotate-180 w-full">
+            <WaveBale fill={'#DEE2FC'} />
+          </div>
         </div>
       </div>
     </div>

@@ -99,7 +99,7 @@ const HeroCortez = () => {
         </div>
       </div>
 
-      <div className="w-full overflow-hidden whitespace-nowrap bg-[#203088] py-4 z-40">
+      <div className="w-full overflow-hidden whitespace-nowrap bg-cortez-blue pt-4 z-40">
         <div className="marquee-container overflow-hidden">
           <div className="marquee-content flex space-x-8">
             {demoArray.map((text, index) => (
@@ -126,9 +126,12 @@ const HeroCortez = () => {
 
         <div
           ref={titleRef}
-          className="bg-cortez-blue flex justify-center items-center text-white text-4xl"
+          className="relative flex flex-col justify-center items-center text-white text-4xl"
         >
           <Detail />
+          <div className="absolute bottom-0 rotate-180 w-full">
+            <WaveCortez />
+          </div>
         </div>
       </div>
     </div>
