@@ -1,11 +1,12 @@
 'use client';
 import useStore from '@tizzle-fe/stores/userStore';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 const SpeechContext = createContext();
 
 export const SpeechProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState();
   const [loading, setLoading] = useState(false);
   const selectedAgent = useStore(state => state.selectedAgent);
 
@@ -31,12 +32,26 @@ export const SpeechProvider = ({ children }) => {
     }
   };
 
+  const onMessagePlayed = () => {
+    setMessages(messages => messages.slice(1));
+  };
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      setMessage(messages[0]);
+    } else {
+      setMessage(null);
+    }
+  }, [messages]);
+
   return (
     <SpeechContext.Provider
       value={{
         tts,
+        message,
         messages,
         loading,
+        onMessagePlayed,
       }}
     >
       {children}

@@ -3,8 +3,8 @@
 import { useRef, useState } from 'react';
 import { useSpeech } from '../../hooks/useSpeech';
 import ChatInterface from './ChatInterface';
-import { FaHome } from 'react-icons/fa';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const AgentInteraction = ({ hidden }) => {
   const [messages, setMessages] = useState([]);
@@ -32,13 +32,30 @@ export const AgentInteraction = ({ hidden }) => {
   }
 
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 z-10 bg-bale-taro text-black flex justify-between p-4 flex-col">
-      <Link
-        className="self-start flex items-center px-3 py-2 bg-white hover:bg-primary transition rounded-lg"
-        href="/"
-      >
-        <FaHome className="mr-2" /> Home
+    <div className="fixed top-0 left-0 right-0 bottom-0 z-10 text-black flex justify-between p-4 flex-col">
+      <Link className="self-start flex flex-col items-center" href="/">
+        <Image
+          src="/logos/tizzle-logo-white.png"
+          alt="Tizzle Logo"
+          width={120}
+          height={40}
+          className="w-auto h-auto"
+        />
       </Link>
+      <div className="flex">
+        <img
+          src="/assets/agents/cortez/cortez-half.png"
+          alt="Agent Avatar"
+          className="w-16 h-16 bg-cortez-blue rounded-full object-cover absolute bottom-4 left-10"
+        />
+        {loading && (
+          <div className="loader-outside absolute bottom-9 left-32">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        )}
+      </div>
       <ChatInterface
         messages={[...messages, ...agentMessages]}
         loading={loading}
@@ -49,7 +66,7 @@ export const AgentInteraction = ({ hidden }) => {
         <button
           disabled={loading}
           onClick={() => alert('recording brooo...')}
-          className={`bg-black hover:bg-black/80 text-white p-4 px-4 font-semibold uppercase rounded-md ${loading ? 'cursor-not-allowed opacity-30' : ''}`}
+          className={`bg-black hover:bg-red-500 text-white p-3 px-3 font-semibold uppercase rounded-full ${loading ? 'cursor-not-allowed opacity-30' : ''}`}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +85,7 @@ export const AgentInteraction = ({ hidden }) => {
         </button>
 
         <input
-          className="w-full placeholder:text-gray-800 placeholder:italic p-4 rounded-md bg-opacity-50 bg-white backdrop-blur-md"
+          className="w-full placeholder:text-gray-800 placeholder:italic px-4 py-3 rounded-full bg-white backdrop-blur-md"
           placeholder="Type a message..."
           onChange={handleInputChange}
           ref={inputRef}
@@ -80,11 +97,11 @@ export const AgentInteraction = ({ hidden }) => {
         />
         <button
           disabled={loading || !inputMessage.trim()}
-          onClick={sendMessage}
-          className={`bg-black hover:bg-black/80 text-white p-4 px-10 font-semibold uppercase rounded-md ${
+          onClick={() => sendMessage()}
+          className={`bg-black text-white p-3 px-8 font-semibold uppercase rounded-full ${
             loading || !inputMessage.trim()
               ? 'cursor-not-allowed opacity-30'
-              : ''
+              : 'hover:bg-primary'
           }`}
         >
           Send

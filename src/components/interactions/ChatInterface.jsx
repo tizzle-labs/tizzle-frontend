@@ -209,7 +209,7 @@ const ChatInterface = ({
                     <img
                       src="/assets/agents/cortez/cortez-half.png"
                       alt="Agent Avatar"
-                      className="w-10 h-10 rounded-full object-cover"
+                      className="w-10 h-10 bg-cortez-blue rounded-full object-cover"
                     />
                   </div>
                   <div className="loader">

@@ -1,6 +1,5 @@
 import AgentSelector from '@tizzle-fe/components/common/selector/AgentSelector';
-import { WaveCortez } from '@tizzle-fe/components/common/svg';
-import { CORTEZ_AGENT } from '@tizzle-fe/components/constants/agent';
+import { CORTEZ_AGENT } from '@tizzle-fe/constants/agent';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { FaCompass, FaDna } from 'react-icons/fa';
