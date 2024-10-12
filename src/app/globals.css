@@ -165,3 +165,32 @@ body {
     transform: scale(1);
   }
 }
+
+.loader-outside {
+  text-align: center;
+}
+.loader-outside span {
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  background: #00ec97;
+  border-radius: 20px;
+  animation: loader-outside 0.8s infinite alternate;
+}
+.loader-outside span:nth-of-type(2) {
+  animation-delay: 0.2s;
+}
+.loader-outside span:nth-of-type(3) {
+  animation-delay: 0.6s;
+}
+@keyframes loader-outside {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 0.1;
+    transform: scale(0.8);
+  }
+}

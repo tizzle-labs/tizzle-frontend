@@ -1,5 +1,5 @@
 import AgentSelector from '@tizzle-fe/components/common/selector/AgentSelector';
-import { BALE_AGENT } from '@tizzle-fe/components/constants/agent';
+import { BALE_AGENT } from '@tizzle-fe/constants/agent';
 import dynamic from 'next/dynamic';
 import { FaCompass, FaDna } from 'react-icons/fa';
 

@@ -1,11 +1,13 @@
-import { AgentInteraction } from '@tizzle-fe/components/interactions/AgentInteraction';
+'use client';
+
+import { AgentCanvas } from '@tizzle-fe/components/interactions/AgentCanvas';
+import { usePathname } from 'next/navigation';
 
 function CortezPage() {
-  return (
-    <div>
-      <AgentInteraction />
-    </div>
-  );
+  const pathname = usePathname();
+  const agentPath = pathname.split('/').filter(Boolean).pop();
+
+  return <AgentCanvas agentPath={agentPath} />;
 }
 
 export default CortezPage;
