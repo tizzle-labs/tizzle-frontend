@@ -6,7 +6,7 @@ import ChatInterface from './ChatInterface';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export const AgentInteraction = ({ hidden }) => {
+export const AgentInteraction = ({ agentPath, hidden }) => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const inputRef = useRef();
@@ -43,10 +43,12 @@ export const AgentInteraction = ({ hidden }) => {
         />
       </Link>
       <div className="flex">
-        <img
-          src="/assets/agents/cortez/cortez-half.png"
+        <Image
+          src={`/assets/agents/${agentPath}/${agentPath}-half.png`}
+          className={`w-16 h-16 rounded-full object-cover absolute bottom-4 left-10 ${agentPath == 'cortez' ? 'bg-cortez-blue' : agentPath == 'akira' ? 'bg-akira-gold' : 'bg-bale-taro'}`}
+          width={80}
+          height={80}
           alt="Agent Avatar"
-          className="w-16 h-16 bg-cortez-blue rounded-full object-cover absolute bottom-4 left-10"
         />
         {loading && (
           <div className="loader-outside absolute bottom-9 left-32">
@@ -57,6 +59,7 @@ export const AgentInteraction = ({ hidden }) => {
         )}
       </div>
       <ChatInterface
+        agentPath={agentPath}
         messages={[...messages, ...agentMessages]}
         loading={loading}
         sendSuggestMessage={text => sendMessage(text)}

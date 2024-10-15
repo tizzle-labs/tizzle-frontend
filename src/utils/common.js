@@ -3,7 +3,7 @@ export const envPreset = agentPath => {
     case 'cortez':
       return 'studio';
     case 'akira':
-      return 'apartment';
+      return 'sunset';
     case 'bale':
       return 'apartment';
     default:

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   FaCheck,
@@ -21,6 +22,7 @@ const suggestions = [
 ];
 
 const ChatInterface = ({
+  agentPath,
   messages: incomingMessages,
   loading: loading,
   sendSuggestMessage,
@@ -132,11 +134,13 @@ const ChatInterface = ({
             <div className="space-y-4">
               {showSuggestions && messages.length === 0 && !loading && (
                 <>
-                  <div className="flex justify-center items-center rounded-full">
-                    <img
-                      src="/assets/agents/cortez/cortez-half.png"
+                  <div className="flex justify-center items-center">
+                    <Image
+                      src={`/assets/agents/${agentPath}/${agentPath}-half.png`}
+                      className={`w-20 h-20 rounded-full object-cover ${agentPath == 'cortez' ? 'bg-cortez-blue' : agentPath == 'akira' ? 'bg-akira-gold' : 'bg-bale-taro'}`}
+                      width={80}
+                      height={80}
                       alt="Agent Avatar"
-                      className="w-20 h-20 bg-cortez-blue rounded-full object-cover"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
@@ -169,12 +173,14 @@ const ChatInterface = ({
                         </div>
                       ) : (
                         <div className="grid grid-cols-6 justify-start">
-                          <div className="col-span-1 flex justify-center items-center w-10 h-10 rounded-full">
+                          <div className="col-span-1 flex justify-center items-center">
                             {idx === 0 && (
-                              <img
-                                src="/assets/agents/cortez/cortez-half.png"
+                              <Image
+                                src={`/assets/agents/${agentPath}/${agentPath}-half.png`}
+                                className={`w-20 h-20 rounded-full object-cover ${agentPath == 'cortez' ? 'bg-cortez-blue' : agentPath == 'akira' ? 'bg-akira-gold' : 'bg-bale-taro'}`}
+                                width={80}
+                                height={80}
                                 alt="Agent Avatar"
-                                className="w-10 h-10 bg-cortez-blue rounded-full object-cover"
                               />
                             )}
                           </div>
@@ -205,11 +211,13 @@ const ChatInterface = ({
 
               {loading && (
                 <div className="flex items-center gap-x-4">
-                  <div className="col-span-1 flex justify-center items-center w-10 h-10 rounded-full">
-                    <img
-                      src="/assets/agents/cortez/cortez-half.png"
+                  <div className="col-span-1 flex justify-center items-center">
+                    <Image
+                      src={`/assets/agents/${agentPath}/${agentPath}-half.png`}
+                      className={`w-10 h-10 rounded-full object-cover ${agentPath == 'cortez' ? 'bg-cortez-blue' : agentPath == 'akira' ? 'bg-akira-gold' : 'bg-bale-taro'}`}
+                      width={80}
+                      height={80}
                       alt="Agent Avatar"
-                      className="w-10 h-10 bg-cortez-blue rounded-full object-cover"
                     />
                   </div>
                   <div className="loader">

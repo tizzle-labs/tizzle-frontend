@@ -1,5 +1,6 @@
 'use client';
-import useStore from '@tizzle-fe/stores/userStore';
+
+import { usePathname } from 'next/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const SpeechContext = createContext();
@@ -8,13 +9,15 @@ export const SpeechProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState();
   const [loading, setLoading] = useState(false);
-  const selectedAgent = useStore(state => state.selectedAgent);
+
+  const pathname = usePathname();
+  const agentPath = pathname.split('/').filter(Boolean).pop();
 
   const tts = async message => {
     setLoading(true);
     try {
       const data = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/tts/${selectedAgent}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/tts/${agentPath}`,
         {
           method: 'POST',
           headers: {
