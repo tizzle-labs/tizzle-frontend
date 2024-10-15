@@ -9,6 +9,7 @@ import facialExpressions from '../../constants/facialExpressions';
 import morphTargets from '../../constants/morphTargets';
 import visemesMapping from '../../constants/visemesMapping';
 import { SkinnedMeshCortez } from '../agent/cortez/SkinnedMesh';
+import { SkinnedMeshAkira } from '../agent/akira/SkinnedMesh';
 
 export const AgentAvatar = ({ agentPath, props }) => {
   const { animations } = useGLTF(
@@ -50,6 +51,7 @@ export const AgentAvatar = ({ agentPath, props }) => {
     audio.play();
     setAudio(audio);
     audio.onended = onMessagePlayed;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [message]);
 
   useEffect(() => {
@@ -64,6 +66,7 @@ export const AgentAvatar = ({ agentPath, props }) => {
         }
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [animation]);
 
   useEffect(() => {
@@ -204,7 +207,11 @@ export const AgentAvatar = ({ agentPath, props }) => {
     <group {...props} dispose={null} ref={group} position={[0, -0.5, 0]}>
       <group {...props} dispose={null}>
         <primitive object={nodes.Hips} />
-        <SkinnedMeshCortez materials={materials} nodes={nodes} />
+        {agentPath == 'cortez' ? (
+          <SkinnedMeshCortez materials={materials} nodes={nodes} />
+        ) : (
+          <SkinnedMeshAkira materials={materials} nodes={nodes} />
+        )}
       </group>
     </group>
   );

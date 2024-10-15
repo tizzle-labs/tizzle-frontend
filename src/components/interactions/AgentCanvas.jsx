@@ -10,7 +10,7 @@ export const AgentCanvas = ({ agentPath }) => {
     <div>
       <Loader />
       <Leva collapsed hidden />
-      <AgentInteraction />
+      <AgentInteraction agentPath={agentPath} />
       <Canvas
         shadows
         camera={{ position: [0, 0, 0], fov: 10 }}
