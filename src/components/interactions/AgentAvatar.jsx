@@ -10,6 +10,7 @@ import morphTargets from '../../constants/morphTargets';
 import visemesMapping from '../../constants/visemesMapping';
 import { SkinnedMeshCortez } from '../agent/cortez/SkinnedMesh';
 import { SkinnedMeshAkira } from '../agent/akira/SkinnedMesh';
+import { SkinnedMeshBale } from '../agent/bale/SkinnedMesh';
 
 export const AgentAvatar = ({ agentPath, props }) => {
   const { animations } = useGLTF(
@@ -209,8 +210,10 @@ export const AgentAvatar = ({ agentPath, props }) => {
         <primitive object={nodes.Hips} />
         {agentPath == 'cortez' ? (
           <SkinnedMeshCortez materials={materials} nodes={nodes} />
-        ) : (
+        ) : agentPath == 'akira' ? (
           <SkinnedMeshAkira materials={materials} nodes={nodes} />
+        ) : (
+          <SkinnedMeshBale materials={materials} nodes={nodes} />
         )}
       </group>
     </group>

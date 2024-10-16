@@ -168,24 +168,24 @@ const ChatInterface = ({
                       }`}
                     >
                       {message.isUser ? (
-                        <div className="p-3 ml-12 rounded-lg shadow bg-primary">
+                        <div className="text-sm p-3 ml-12 rounded-lg shadow bg-primary">
                           {message.text}
                         </div>
                       ) : (
-                        <div className="grid grid-cols-6 justify-start">
-                          <div className="col-span-1 flex justify-center items-center">
+                        <div className="grid grid-cols-12 gap-x-4 justify-start">
+                          <div className="col-span-2">
                             {idx === 0 && (
                               <Image
                                 src={`/assets/agents/${agentPath}/${agentPath}-half.png`}
-                                className={`w-20 h-20 rounded-full object-cover ${agentPath == 'cortez' ? 'bg-cortez-blue' : agentPath == 'akira' ? 'bg-akira-gold' : 'bg-bale-taro'}`}
+                                className={`w-10 h-10 rounded-full object-cover ${agentPath == 'cortez' ? 'bg-cortez-blue' : agentPath == 'akira' ? 'bg-akira-gold' : 'bg-bale-taro'}`}
                                 width={80}
                                 height={80}
                                 alt="Agent Avatar"
                               />
                             )}
                           </div>
-                          <div className="col-span-5">
-                            <p className="mb-2">{message.text}</p>
+                          <div className="col-span-10">
+                            <p className="text-sm mb-2">{message.text}</p>
                             {group.length === 1 || group.length - 1 === idx ? (
                               <button
                                 id={idx}
