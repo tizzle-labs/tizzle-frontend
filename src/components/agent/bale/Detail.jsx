@@ -1,6 +1,7 @@
 import AgentSelector from '@tizzle-fe/components/common/selector/AgentSelector';
 import { BALE_AGENT } from '@tizzle-fe/constants/agent';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { FaCompass, FaDna } from 'react-icons/fa';
 
 const BaleModel = dynamic(() => import('../Model'), {
@@ -56,9 +57,11 @@ const Detail = () => {
               <p className="text-white">Human</p>
             </div>
           </div>
-          <button className="bg-white text-black hover:bg-primary px-8 py-2 rounded text-lg transition duration-300 ease-in-out">
-            MINT
-          </button>
+          <Link href="/agent/bale">
+            <button className="bg-white text-black hover:bg-primary px-8 py-2 rounded text-lg transition duration-300 ease-in-out">
+              MINT
+            </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -88,10 +88,10 @@ export const AgentInteraction = ({ agentPath, hidden }) => {
         </button>
 
         <input
+          ref={inputRef}
           className="w-full placeholder:text-gray-800 placeholder:italic px-4 py-3 rounded-full bg-white backdrop-blur-md"
           placeholder="Type a message..."
           onChange={handleInputChange}
-          ref={inputRef}
           onKeyDown={e => {
             if (e.key === 'Enter') {
               sendMessage();
