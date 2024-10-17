@@ -1,25 +1,7 @@
+import { agentSuggentions } from '@tizzle-fe/utils/common';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  FaCheck,
-  FaChevronLeft,
-  FaChevronRight,
-  FaCopy,
-  FaInfoCircle,
-  FaQuestionCircle,
-  FaRobot,
-  FaSun,
-} from 'react-icons/fa';
-
-const suggestions = [
-  {
-    text: 'How do I start using or accessing the tizzle platform?',
-    icon: <FaQuestionCircle />,
-  },
-  { text: 'Tell me a fun fact.', icon: <FaInfoCircle /> },
-  { text: "How's the weather today?", icon: <FaSun /> },
-  { text: 'Why were you created as a cyborg?', icon: <FaRobot /> },
-];
+import { FaCheck, FaChevronLeft, FaChevronRight, FaCopy } from 'react-icons/fa';
 
 const ChatInterface = ({
   agentPath,
@@ -144,7 +126,7 @@ const ChatInterface = ({
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
-                    {suggestions.map((suggestion, idx) => (
+                    {agentSuggentions(agentPath).map((suggestion, idx) => (
                       <div
                         key={idx}
                         onClick={() => handleSuggestionClick(suggestion)}
