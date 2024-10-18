@@ -1,5 +1,6 @@
 'use client';
 
+import { useWallet } from '@tizzle-fe/hooks/walletContext';
 import useStore from '@tizzle-fe/stores/userStore';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,23 +8,22 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FaCaretDown, FaWallet } from 'react-icons/fa';
 
 const Navbar = () => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const [agentDropdownOpen, setAgentDropdownOpen] = useState(false);
   const setSelectedAgent = useStore(state => state.setSelectedAgent);
-
-  const handleConnectWallet = () => {
-    // TODO: connect wallet
-    console.log('Connecting wallet...');
-  };
+  const { modal, accountId, signOut, loading } = useWallet();
+  const agentDropdownRef = useRef(null);
 
   const handleOnclickLi = agent => {
     setSelectedAgent(agent);
-    setDropdownOpen(false);
+    setAgentDropdownOpen(false);
   };
 
   const handleClickOutside = event => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setDropdownOpen(false);
+    if (
+      agentDropdownRef.current &&
+      !agentDropdownRef.current.contains(event.target)
+    ) {
+      setAgentDropdownOpen(false);
     }
   };
 
@@ -55,17 +55,17 @@ const Navbar = () => {
           >
             WHITEPAPER
           </a>
-          <div className="relative inline-block" ref={dropdownRef}>
+          <div className="relative inline-block" ref={agentDropdownRef}>
             <button
-              onClick={() => setDropdownOpen(!dropdownOpen)}
+              onClick={() => setAgentDropdownOpen(!agentDropdownOpen)}
               className="flex items-center text-sm text-white font-bold hover:text-primary focus:outline-none"
             >
               AGENTS{' '}
               <FaCaretDown
-                className={`ml-1 transform transition-transform ${dropdownOpen ? 'rotate-180' : ''}`}
+                className={`ml-1 transform transition-transform ${agentDropdownOpen ? 'rotate-180' : ''}`}
               />
             </button>
-            {dropdownOpen && (
+            {agentDropdownOpen && (
               <ul className="absolute top-full left-0 mt-2 w-40 bg-white text-black rounded-lg shadow-lg z-10">
                 <li>
                   <div
@@ -95,10 +95,28 @@ const Navbar = () => {
             )}
           </div>
         </nav>
-        <button className="flex items-center space-x-2 bg-white hover:bg-primary text-black px-4 py-2 rounded transition duration-300 ease-in-out">
-          <FaWallet className="text-lg" />
-          <span>Connect Wallet</span>
-        </button>
+        {!accountId ? (
+          <button
+            className={`flex items-center space-x-2 bg-white hover:bg-primary text-black px-4 py-2 rounded transition duration-300 ease-in-out ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+            onClick={() => modal.show()}
+            disabled={loading}
+          >
+            <FaWallet className="text-lg" />
+            <span>Connect Wallet</span>
+          </button>
+        ) : (
+          <div className="flex gap-x-8">
+            <p>
+              Welcome, <span className="text-primary">{accountId}</span>
+            </p>
+            <button
+              className="border-2 border-red-500 px-2 text-red-500 rounded-md hover:bg-red-500 hover:text-white transition duration-300"
+              onClick={signOut}
+            >
+              Sign Out
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );
