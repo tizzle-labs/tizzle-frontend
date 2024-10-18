@@ -62,7 +62,7 @@ const Detail = () => {
           </div>
           <Link href="/agent/akira">
             <button className="bg-white text-black hover:bg-primary px-8 py-2 rounded text-lg transition duration-300 ease-in-out">
-              MINT
+              Start Conversation
             </button>
           </Link>
         </div>
