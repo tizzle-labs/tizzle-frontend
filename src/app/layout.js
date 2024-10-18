@@ -1,5 +1,7 @@
 import './globals.css';
+import '@near-wallet-selector/modal-ui/styles.css';
 import { Kanit } from 'next/font/google';
+import { WalletProvider } from '@tizzle-fe/hooks/walletContext';
 
 const kanit = Kanit({
   subsets: ['latin'],
@@ -17,7 +19,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={kanit.className}>
-        <main>{children}</main>
+        <main>
+          <WalletProvider>{children}</WalletProvider>
+        </main>
       </body>
     </html>
   );

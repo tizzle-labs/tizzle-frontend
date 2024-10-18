@@ -1,7 +1,9 @@
 import AgentSelector from '@tizzle-fe/components/common/selector/AgentSelector';
 import { CORTEZ_AGENT } from '@tizzle-fe/constants/agent';
+import { useWallet } from '@tizzle-fe/hooks/walletContext';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { FaCompass, FaDna } from 'react-icons/fa';
 
 const CortezModel = dynamic(() => import('../Model'), {
@@ -9,6 +11,18 @@ const CortezModel = dynamic(() => import('../Model'), {
 });
 
 const Detail = () => {
+  const router = useRouter();
+  const { accountId, modal } = useWallet();
+
+  const handleClickButton = () => {
+    if (!accountId) {
+      modal.show();
+      return;
+    }
+
+    router.push('/agent/cortez');
+  };
+
   return (
     <div className="text-center my-20 z-30">
       <h1 className="text-6xl font-bold mb-20 lightning-underline">CORTEZ</h1>
@@ -56,11 +70,12 @@ const Detail = () => {
               <p>Cyborg</p>
             </div>
           </div>
-          <Link href={'/agent/cortez'}>
-            <button className="bg-white text-black hover:bg-primary px-8 py-2 rounded text-lg transition duration-300 ease-in-out">
-              MINT
-            </button>
-          </Link>
+          <button
+            className="bg-white text-black hover:bg-primary px-8 py-2 rounded text-lg transition duration-300 ease-in-out"
+            onClick={handleClickButton}
+          >
+            MINT
+          </button>
         </div>
       </div>
     </div>
