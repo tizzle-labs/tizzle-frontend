@@ -10,7 +10,7 @@ import { FaCaretDown, FaWallet } from 'react-icons/fa';
 const Navbar = () => {
   const [agentDropdownOpen, setAgentDropdownOpen] = useState(false);
   const setSelectedAgent = useStore(state => state.setSelectedAgent);
-  const { modal, accountId, signOut, loading } = useWallet();
+  const { modal, accountId, signOut, loading, tokens } = useWallet();
   const agentDropdownRef = useRef(null);
 
   const handleOnclickLi = agent => {
@@ -108,6 +108,9 @@ const Navbar = () => {
           <div className="flex gap-x-8">
             <p>
               Welcome, <span className="text-primary">{accountId}</span>
+            </p>
+            <p>
+              Tokens: <span className="text-primary">{tokens}</span>
             </p>
             <button
               className="border-2 border-red-500 px-2 text-red-500 rounded-md hover:bg-red-500 hover:text-white transition duration-300"

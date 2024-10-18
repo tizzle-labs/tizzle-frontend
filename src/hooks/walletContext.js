@@ -6,6 +6,7 @@ import { setupModal } from '@near-wallet-selector/modal-ui';
 import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
 import { setupBitteWallet } from '@near-wallet-selector/bitte-wallet';
 import { setupHereWallet } from '@near-wallet-selector/here-wallet';
+import { useUser } from './useUser';
 
 const WalletContext = createContext();
 
@@ -14,10 +15,15 @@ export const WalletProvider = ({ children }) => {
   const [modal, setModal] = useState(null);
   const [accountId, setAccountId] = useState(null);
   const [walletId, setWalletId] = useState(null);
+  const [tokens, setTokens] = useState();
   const [loading, setLoading] = useState(true);
+
+  const { getAccountId, createNewUser } = useUser();
 
   useEffect(() => {
     const initWallet = async () => {
+      setLoading(true);
+
       try {
         const selectorInstance = await setupWalletSelector({
           network: 'testnet',
@@ -25,7 +31,7 @@ export const WalletProvider = ({ children }) => {
         });
 
         const modalInstance = setupModal(selectorInstance, {
-          contractId: 'test.testnet',
+          contractId: 'tizzle.testnet',
         });
 
         setSelector(selectorInstance);
@@ -46,6 +52,27 @@ export const WalletProvider = ({ children }) => {
 
     initWallet();
   }, []);
+
+  useEffect(() => {
+    const initUser = async () => {
+      try {
+        const userData = await getAccountId(accountId);
+
+        if (!userData) {
+          const newUserData = await createNewUser(accountId, walletId);
+          setTokens(newUserData.tokens);
+        }
+
+        setTokens(userData.tokens);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (accountId && walletId) {
+      initUser();
+    }
+  }, [accountId, walletId]);
 
   const signOut = async () => {
     if (!selector) {
@@ -82,6 +109,7 @@ export const WalletProvider = ({ children }) => {
         selector,
         modal,
         accountId,
+        tokens,
         loading,
         signOut,
         getAccount,
