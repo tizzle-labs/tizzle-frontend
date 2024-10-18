@@ -51,3 +51,9 @@ export const agentSuggentions = agentName => {
 
   return suggestions;
 };
+
+export const prettyTruncate = (amount, decimals = 2) => {
+  if (!amount) return '0.00';
+  const truncated = parseFloat(amount).toFixed(decimals);
+  return truncated;
+};

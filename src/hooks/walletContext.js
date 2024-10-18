@@ -7,6 +7,7 @@ import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
 import { setupBitteWallet } from '@near-wallet-selector/bitte-wallet';
 import { setupHereWallet } from '@near-wallet-selector/here-wallet';
 import { useUser } from './useUser';
+import { providers } from 'near-api-js';
 
 const WalletContext = createContext();
 
@@ -16,6 +17,7 @@ export const WalletProvider = ({ children }) => {
   const [accountId, setAccountId] = useState(null);
   const [walletId, setWalletId] = useState(null);
   const [tokens, setTokens] = useState();
+  const [balance, setBalance] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const { getAccountId, createNewUser } = useUser();
@@ -67,6 +69,8 @@ export const WalletProvider = ({ children }) => {
       } catch (error) {
         console.error(error);
       }
+
+      await fetchBalance();
     };
 
     if (accountId && walletId) {
@@ -103,12 +107,38 @@ export const WalletProvider = ({ children }) => {
     return accounts[0]?.accountId || null;
   };
 
+  const fetchBalance = async () => {
+    if (!selector || !accountId) {
+      console.error('Wallet selector or accountId not initialized yet');
+      return;
+    }
+
+    try {
+      const provider = new providers.JsonRpcProvider({
+        url: 'https://rpc.testnet.near.org',
+      });
+
+      const result = await provider.query({
+        request_type: 'view_account',
+        finality: 'final',
+        account_id: accountId,
+      });
+
+      const balanceInNear = result.amount / 1e24;
+
+      setBalance(balanceInNear);
+    } catch (error) {
+      console.error('Failed to fetch balance:', error);
+    }
+  };
+
   return (
     <WalletContext.Provider
       value={{
         selector,
         modal,
         accountId,
+        balance,
         tokens,
         loading,
         signOut,
