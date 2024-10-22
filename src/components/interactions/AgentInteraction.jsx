@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSpeech } from '../../hooks/useSpeech';
 import ChatInterface from './ChatInterface';
 import Link from 'next/link';
@@ -11,6 +11,9 @@ import { createAvatar } from '@dicebear/avatars';
 import * as style from '@dicebear/avatars-identicon-sprites';
 import { IconNear } from '../common/svg';
 import { prettyTruncate } from '@tizzle-fe/utils/common';
+import { buyToken } from '@tizzle-fe/services/nearService';
+import { useSearchParams } from 'next/navigation';
+import Confetti from 'react-confetti';
 
 export const AgentInteraction = ({ agentPath, hidden }) => {
   const [messages, setMessages] = useState([]);
@@ -18,12 +21,23 @@ export const AgentInteraction = ({ agentPath, hidden }) => {
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
   const [isTokenModalOpen, setTokenModalOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState('');
+  const [isSuccessModalOpen, setSuccessModalOpen] = useState(false);
+  const [purchasedTokens, setPurchasedTokens] = useState(0);
+  const [transactionHash, setTransactionHash] = useState('');
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const inputRef = useRef();
   const { tts, loading, messages: agentMessages } = useSpeech();
-  const { accountId, balance, tokens } = useWallet();
 
-  console.log('balance: ', balance);
+  const searchParams = useSearchParams();
+  const {
+    selector,
+    accountId,
+    balance,
+    tokens,
+    setTokens: updateTokens,
+  } = useWallet();
 
   const avatarUrl = createAvatar(style, {
     seed: accountId,
@@ -37,6 +51,67 @@ export const AgentInteraction = ({ agentPath, hidden }) => {
     { id: 4, label: 'Tier Four', tokens: 500, price: 10 },
     { id: 5, label: 'Tier Five', tokens: 1000, price: 20 },
   ];
+
+  useEffect(() => {
+    const transactionHashes = searchParams.get('transactionHashes');
+    if (transactionHashes) {
+      setTransactionHash(transactionHashes);
+      setSuccessModalOpen(true);
+      setShowConfetti(true);
+
+      const purchasedPackage = JSON.parse(
+        localStorage.getItem('purchasedPackage'),
+      );
+      if (purchasedPackage) {
+        setPurchasedTokens(purchasedPackage.tokens);
+        localStorage.removeItem('purchasedPackage');
+      }
+    }
+  }, [searchParams, tokens, updateTokens]);
+
+  const handleBuyToken = async () => {
+    if (!selectedPackage) return;
+
+    const selectedTokenPackage = tokenPackages.find(
+      pkg => pkg.id === parseInt(selectedPackage),
+    );
+    if (!selectedTokenPackage) return;
+
+    if (parseFloat(balance) < selectedTokenPackage.price) {
+      setErrorMessage(`Insufficient NEAR balance.`);
+      return;
+    }
+
+    try {
+      setErrorMessage('');
+
+      localStorage.setItem(
+        'purchasedPackage',
+        JSON.stringify(selectedTokenPackage),
+      );
+
+      await buyToken(
+        selectedTokenPackage.price,
+        selector,
+        accountId,
+        'tizzle.testnet',
+      );
+      setTokenModalOpen(false);
+    } catch (error) {
+      console.error('Error buying token:', error);
+      localStorage.removeItem('purchasedPackage');
+      setErrorMessage(
+        'An error occurred while processing your purchase. Please try again.',
+      );
+    }
+  };
+
+  const handleSuccessModalClose = () => {
+    setSuccessModalOpen(false);
+    setShowConfetti(false);
+    const newUrl = window.location.pathname;
+    window.history.pushState({}, '', newUrl);
+  };
 
   const handlePackageChange = event => {
     setSelectedPackage(event.target.value);
@@ -63,6 +138,8 @@ export const AgentInteraction = ({ agentPath, hidden }) => {
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 z-10 text-black flex justify-between p-4 flex-col">
+      {showConfetti && <Confetti />}
+
       <Modal
         isOpen={isProfileModalOpen}
         onClose={() => setProfileModalOpen(false)}
@@ -81,10 +158,39 @@ export const AgentInteraction = ({ agentPath, hidden }) => {
       </Modal>
 
       <Modal
+        isOpen={isSuccessModalOpen}
+        onClose={handleSuccessModalClose}
+        title="Purchase Successful!"
+        onExit={handleSuccessModalClose}
+      >
+        <div className="relative p-4 text-center">
+          <p className="text-lg mb-4">
+            You have successfully purchased {purchasedTokens} tokens!
+          </p>
+          <a
+            href={`https://explorer.testnet.near.org/transactions/${transactionHash}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline"
+          >
+            View transaction on NEAR Explorer
+          </a>
+        </div>
+      </Modal>
+
+      <Modal
         isOpen={isTokenModalOpen}
-        onClose={() => setTokenModalOpen(false)}
+        onClose={() => {
+          setTokenModalOpen(false);
+          setErrorMessage('');
+          setSelectedPackage('');
+        }}
         title="Buy Token"
-        onExit={() => setTokenModalOpen(false)}
+        onExit={() => {
+          setTokenModalOpen(false);
+          setErrorMessage('');
+          setSelectedPackage('');
+        }}
       >
         <div className="relative p-4">
           <h2 className="text-lg mb-4 text-center">Select Package Tier</h2>
@@ -103,14 +209,21 @@ export const AgentInteraction = ({ agentPath, hidden }) => {
             ))}
           </select>
           <button
-            className={`w-full text-white rounded-md py-2 hover:bg-opacity-80 transition duration-300 ${!selectedPackage ? 'cursor-not-allowed bg-gray-300' : 'cursor-pointer bg-primary'}`}
-            onClick={() => {
-              setTokenModalOpen(false);
-            }}
+            className={`w-full text-white rounded-md py-2 hover:bg-opacity-80 transition duration-300 ${
+              !selectedPackage
+                ? 'cursor-not-allowed bg-gray-300'
+                : 'cursor-pointer bg-primary'
+            }`}
+            onClick={handleBuyToken}
             disabled={!selectedPackage}
           >
             Buy Token
           </button>
+          <div className="h-8 mb-4">
+            {errorMessage && (
+              <p className="text-sm text-red-500 text-center">{errorMessage}</p>
+            )}
+          </div>
           <div className="flex justify-center items-center gap-x-4 text-center border-t-2 mt-4 pt-2">
             <p className="text-gray-600">
               Your Tokens:{' '}
