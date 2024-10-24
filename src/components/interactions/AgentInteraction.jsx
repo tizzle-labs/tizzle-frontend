@@ -14,6 +14,7 @@ import { prettyTruncate } from '@tizzle-fe/utils/common';
 import { buyToken } from '@tizzle-fe/services/nearService';
 import { useSearchParams } from 'next/navigation';
 import Confetti from 'react-confetti';
+import { useUser } from '@tizzle-fe/hooks/useUser';
 
 export const AgentInteraction = ({ agentPath, hidden }) => {
   const [messages, setMessages] = useState([]);
@@ -22,6 +23,7 @@ export const AgentInteraction = ({ agentPath, hidden }) => {
   const [isTokenModalOpen, setTokenModalOpen] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState('');
   const [isSuccessModalOpen, setSuccessModalOpen] = useState(false);
+  const [price, setPrice] = useState(0);
   const [purchasedTokens, setPurchasedTokens] = useState(0);
   const [transactionHash, setTransactionHash] = useState('');
   const [showConfetti, setShowConfetti] = useState(false);
@@ -29,6 +31,7 @@ export const AgentInteraction = ({ agentPath, hidden }) => {
 
   const inputRef = useRef();
   const { tts, loading, messages: agentMessages } = useSpeech();
+  const { updateToken, createTokenHistory } = useUser();
 
   const searchParams = useSearchParams();
   const {
@@ -62,12 +65,29 @@ export const AgentInteraction = ({ agentPath, hidden }) => {
       const purchasedPackage = JSON.parse(
         localStorage.getItem('purchasedPackage'),
       );
+
       if (purchasedPackage) {
         setPurchasedTokens(purchasedPackage.tokens);
+        setPrice(purchasedPackage.price);
         localStorage.removeItem('purchasedPackage');
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, tokens, updateTokens]);
+
+  useEffect(() => {
+    if (transactionHash != '') {
+      handleTokenHistory(accountId, transactionHash, price, purchasedTokens);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [transactionHash]);
+
+  const handleTokenHistory = async (accountId, txHash, price, tokens) => {
+    await updateToken(accountId, tokens);
+    await createTokenHistory(accountId, txHash, price, tokens);
+
+    updateTokens(tokens);
+  };
 
   const handleBuyToken = async () => {
     if (!selectedPackage) return;
@@ -90,6 +110,7 @@ export const AgentInteraction = ({ agentPath, hidden }) => {
         JSON.stringify(selectedTokenPackage),
       );
 
+      // on-chain tx
       await buyToken(
         selectedTokenPackage.price,
         selector,

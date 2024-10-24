@@ -49,8 +49,67 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const updateToken = async (accountId, token) => {
+    setLoading(true);
+
+    try {
+      const data = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/update-token/${accountId}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token }),
+        },
+      );
+      const response = (await data.json()).data;
+      return response;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const createTokenHistory = async (accountId, txHash, price, tokens) => {
+    setLoading(true);
+
+    try {
+      const data = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/token-history`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            account_id: accountId,
+            tx_hash: txHash,
+            price,
+            tokens,
+          }),
+        },
+      );
+      const response = (await data.json()).data;
+      return response;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <UserContext.Provider value={{ getAccountId, createNewUser, loading }}>
+    <UserContext.Provider
+      value={{
+        getAccountId,
+        createNewUser,
+        updateToken,
+        createTokenHistory,
+        loading,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

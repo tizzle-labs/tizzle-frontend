@@ -140,6 +140,7 @@ export const WalletProvider = ({ children }) => {
         accountId,
         balance,
         tokens,
+        setTokens,
         loading,
         signOut,
         getAccount,
