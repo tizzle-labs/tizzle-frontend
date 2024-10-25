@@ -143,7 +143,7 @@ export const AgentInteraction = ({ agentPath, hidden }) => {
     if (!loading && text) {
       setMessages(prevMessage => [...prevMessage, { text, isUser: true }]);
 
-      tts(text);
+      tts(text, accountId);
       inputRef.current.value = '';
       setInputMessage('');
     }

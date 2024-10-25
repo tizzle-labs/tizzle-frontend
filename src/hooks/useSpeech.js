@@ -2,6 +2,8 @@
 
 import { usePathname } from 'next/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
+import { useWallet } from './walletContext';
+import useStore from '@tizzle-fe/stores/userStore';
 
 const SpeechContext = createContext();
 
@@ -12,8 +14,11 @@ export const SpeechProvider = ({ children }) => {
 
   const pathname = usePathname();
   const agentPath = pathname.split('/').filter(Boolean).pop();
+  const { setTokens: updateToken } = useWallet();
 
-  const tts = async message => {
+  const setUpdatedToken = useStore(state => state.setUpdatedToken);
+
+  const tts = async (message, accountId) => {
     setLoading(true);
     try {
       const data = await fetch(
@@ -23,11 +28,17 @@ export const SpeechProvider = ({ children }) => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ message }),
+          body: JSON.stringify({ message, account_id: accountId }),
         },
       );
-      const response = (await data.json()).messages;
+
+      const result = await data.json();
+      const response = result.messages;
+      const currentTokens = result.current_tokens;
+
       setMessages(messages => [...messages, ...response]);
+      updateToken(currentTokens);
+      setUpdatedToken(currentTokens);
     } catch (error) {
       console.error(error);
     } finally {
