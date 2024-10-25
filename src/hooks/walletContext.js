@@ -8,6 +8,7 @@ import { setupBitteWallet } from '@near-wallet-selector/bitte-wallet';
 import { setupHereWallet } from '@near-wallet-selector/here-wallet';
 import { useUser } from './useUser';
 import { providers } from 'near-api-js';
+import useStore from '@tizzle-fe/stores/userStore';
 
 const WalletContext = createContext();
 
@@ -21,6 +22,7 @@ export const WalletProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const { getAccountId, createNewUser } = useUser();
+  const updatedToken = useStore(state => state.updatedToken);
 
   useEffect(() => {
     const initWallet = async () => {
@@ -63,6 +65,7 @@ export const WalletProvider = ({ children }) => {
         if (!userData) {
           const newUserData = await createNewUser(accountId, walletId);
           setTokens(newUserData.tokens);
+          return;
         }
 
         setTokens(userData.tokens);
@@ -76,7 +79,12 @@ export const WalletProvider = ({ children }) => {
     if (accountId && walletId) {
       initUser();
     }
-  }, [accountId, walletId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accountId, walletId, tokens]);
+
+  useEffect(() => {
+    setTokens(updatedToken);
+  }, [updatedToken]);
 
   const signOut = async () => {
     if (!selector) {
