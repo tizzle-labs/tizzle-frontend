@@ -12,11 +12,10 @@ import * as style from '@dicebear/avatars-identicon-sprites';
 import { IconNear } from '../common/svg';
 import { prettyTruncate } from '@tizzle-fe/utils/common';
 import { buyToken } from '@tizzle-fe/services/nearService';
-import { useSearchParams } from 'next/navigation';
 import Confetti from 'react-confetti';
 import { useUser } from '@tizzle-fe/hooks/useUser';
 
-export const AgentInteraction = ({ agentPath, hidden }) => {
+export const AgentInteraction = ({ agentPath, hidden, transactionHashes }) => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
@@ -33,7 +32,6 @@ export const AgentInteraction = ({ agentPath, hidden }) => {
   const { tts, loading, messages: agentMessages } = useSpeech();
   const { updateToken, createTokenHistory } = useUser();
 
-  const searchParams = useSearchParams();
   const {
     selector,
     accountId,
@@ -56,7 +54,6 @@ export const AgentInteraction = ({ agentPath, hidden }) => {
   ];
 
   useEffect(() => {
-    const transactionHashes = searchParams.get('transactionHashes');
     if (transactionHashes) {
       setTransactionHash(transactionHashes);
       setSuccessModalOpen(true);
@@ -73,7 +70,7 @@ export const AgentInteraction = ({ agentPath, hidden }) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams, tokens, updateTokens]);
+  }, [transactionHashes, tokens, updateTokens]);
 
   useEffect(() => {
     if (transactionHash != '') {
