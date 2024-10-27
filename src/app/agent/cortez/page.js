@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { AgentCanvas } from '@tizzle-fe/components/interactions/AgentCanvas';
 import { usePathname } from 'next/navigation';
 
@@ -7,7 +8,11 @@ function CortezPage() {
   const pathname = usePathname();
   const agentPath = pathname.split('/').filter(Boolean).pop();
 
-  return <AgentCanvas agentPath={agentPath} />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AgentCanvas agentPath={agentPath} />;
+    </Suspense>
+  );
 }
 
 export default CortezPage;
