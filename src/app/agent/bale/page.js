@@ -2,12 +2,17 @@
 
 import { AgentCanvas } from '@tizzle-fe/components/interactions/AgentCanvas';
 import { usePathname } from 'next/navigation';
+import { Suspense } from 'react';
 
 function BalePage() {
   const pathname = usePathname();
   const agentPath = pathname.split('/').filter(Boolean).pop();
 
-  return <AgentCanvas agentPath={agentPath} />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AgentCanvas agentPath={agentPath} />;
+    </Suspense>
+  );
 }
 
 export default BalePage;
