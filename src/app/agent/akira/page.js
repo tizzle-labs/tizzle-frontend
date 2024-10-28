@@ -4,19 +4,21 @@ import { Suspense } from 'react';
 import { AgentCanvas } from '@tizzle-fe/components/interactions/AgentCanvas';
 import { usePathname, useSearchParams } from 'next/navigation';
 
-function AkiraPage() {
+function AkiraContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const agentPath = pathname.split('/').filter(Boolean).pop();
   const transactionHashes = searchParams.get('transactionHashes');
 
   return (
+    <AgentCanvas agentPath={agentPath} transactionHashes={transactionHashes} />
+  );
+}
+
+function AkiraPage() {
+  return (
     <Suspense fallback={<div>Loading...</div>}>
-      <AgentCanvas
-        agentPath={agentPath}
-        transactionHashes={transactionHashes}
-      />
-      ;
+      <AkiraContent />
     </Suspense>
   );
 }
