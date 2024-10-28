@@ -271,38 +271,62 @@ export const AgentInteraction = ({ agentPath, hidden, transactionHashes }) => {
           className="w-auto h-auto"
         />
       </Link>
-      <div className="flex absolute bottom-4 left-10">
-        <div className="grid grid-cols-4 gap-x-4 gap-y-2">
-          <button
-            className="col-span-1 w-32 border-2 border-primary px-2 text-primary rounded-md hover:bg-primary hover:text-white transition duration-300"
-            onClick={() => setProfileModalOpen(true)}
-          >
-            Profile
-          </button>
-          <p className="col-span-3 text-white">
-            Account ID: <span className="text-primary">{accountId}</span>
-          </p>
-          <button
-            className="w-32 border-2 border-primary px-2 text-primary rounded-md hover:bg-primary hover:text-white transition duration-300"
-            onClick={() => setTokenModalOpen(true)}
-          >
-            Buy Token
-          </button>{' '}
-          <p className="text-white">
-            Tokens: <span className="text-primary">{tokens}</span>
-          </p>
+      <div className="fixed md:absolute bottom-24 md:bottom-4 left-0 md:left-10 w-full md:w-auto px-4 md:px-0">
+        <div className="flex flex-col md:grid md:grid-cols-4 md:gap-x-4 md:gap-y-2">
+          {/* mobile: text above buttons */}
+          <div className="flex flex-col justify-between mb-2 md:hidden">
+            <p className="text-white text-sm">
+              Account ID: <span className="text-primary">{accountId}</span>
+            </p>
+            <p className="text-white text-sm">
+              Tokens: <span className="text-primary">{tokens}</span>
+            </p>
+          </div>
+
+          {/* mobile: button */}
+          <div className="flex justify-between md:contents">
+            <button
+              className="w-[48%] md:w-32 md:col-span-1 border-2 border-primary px-2 py-1 text-primary rounded-md hover:bg-primary hover:text-white transition duration-300 text-sm"
+              onClick={() => setProfileModalOpen(true)}
+            >
+              Profile
+            </button>
+
+            {/* desktop: account ID */}
+            <p className="hidden md:block md:col-span-3 text-white">
+              Account ID: <span className="text-primary">{accountId}</span>
+            </p>
+
+            <button
+              className="w-[48%] md:w-32 border-2 border-primary px-2 py-1 text-primary rounded-md hover:bg-primary hover:text-white transition duration-300 text-sm"
+              onClick={() => setTokenModalOpen(true)}
+            >
+              Buy Token
+            </button>
+
+            {/* desktop: tokens */}
+            <p className="hidden md:block text-white">
+              Tokens: <span className="text-primary">{tokens}</span>
+            </p>
+          </div>
         </div>
       </div>
       <div className="flex">
         <Image
           src={`/assets/agents/${agentPath}/${agentPath}-half.png`}
-          className={`w-16 h-16 rounded-full object-cover absolute bottom-4 right-10 ${agentPath == 'cortez' ? 'bg-cortez-blue' : agentPath == 'akira' ? 'bg-akira-gold' : 'bg-bale-taro'}`}
+          className={`w-12 h-12 md:w-16 md:h-16 rounded-full object-cover fixed md:absolute bottom-36 md:bottom-4 right-4 md:right-10 ${
+            agentPath == 'cortez'
+              ? 'bg-cortez-blue'
+              : agentPath == 'akira'
+                ? 'bg-akira-gold'
+                : 'bg-bale-taro'
+          }`}
           width={80}
           height={80}
           alt="Agent Avatar"
         />
         {loading && (
-          <div className="loader-outside absolute bottom-9 right-32">
+          <div className="loader-outside fixed md:absolute bottom-40 md:bottom-9 right-20 md:right-32">
             <span></span>
             <span></span>
             <span></span>

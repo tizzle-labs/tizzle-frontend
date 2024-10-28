@@ -19,34 +19,37 @@ const Detail = () => {
       modal.show();
       return;
     }
-
     router.push('/agent/cortez');
   };
 
   return (
-    <div className="text-center my-20 z-30">
-      <h1 className="text-6xl font-bold mb-20 lightning-underline">CORTEZ</h1>
-      <div className="flex justify-between items-start px-40 whitespace-break-spaces">
-        <div className="w-1/2">
-          <div className="w-96 h-96 mb-4 flex items-center justify-center">
+    <div className="text-center my-10 md:my-20 z-30 px-4 md:px-0">
+      <h1 className="text-4xl md:text-6xl font-bold mb-10 md:mb-20 lightning-underline">
+        CORTEZ
+      </h1>
+      <div className="flex flex-col md:flex-row justify-between items-center md:items-start md:px-40 whitespace-break-spaces">
+        <div className="w-full md:w-1/2">
+          <div className="w-full md:w-96 h-72 md:h-96 mb-4 flex items-center justify-center">
             <CortezModel agentName={CORTEZ_AGENT} />
           </div>
-          <div className="mt-12">
-            <h3 className="text-sm text-left mb-4">SELECT AGENT</h3>
+          <div className="mt-8 md:mt-12">
+            <h3 className="text-sm text-center md:text-left mb-4 text-white">
+              SELECT AGENT
+            </h3>
             <AgentSelector />
           </div>
         </div>
-        <div className="max-w-3xl text-left pl-[300px]">
-          <h2 className="text-3xl mb-2">Cortez</h2>
+        <div className="max-w-3xl text-center md:text-left mt-8 md:mt-0 md:pl-[300px]">
+          <h2 className="text-2xl md:text-3xl mb-2 text-white">Cortez</h2>
           <p className="mb-2 text-lg text-primary">Data Analyzer</p>
-          <p className="mb-4 text-sm overflow-hidden">
+          <p className="mb-4 text-sm overflow-hidden text-white px-4 md:px-0">
             Cortez is a calm and observant Cyborg AI from Tizzle laboratory. As
             a cyborg, he excels in collecting and analyzing information. His
             presence is marked by a blend of human-like intuition and
             machine-like precision, making him an invaluable asset in critical
             missions.
           </p>
-          <div className="flex justify-start mb-8">
+          <div className="flex justify-center md:justify-start mb-8">
             <span className="text-xs bg-gray-500 px-2 py-1 rounded-full mr-2">
               Calm
             </span>
@@ -54,28 +57,30 @@ const Detail = () => {
               Observer
             </span>
           </div>
-          <div className="mb-8 text-sm">
-            <div className="flex gap-7 border-b-2 border-gray-500 py-2">
-              <div className="flex gap-1 items-center">
+          <div className="mb-8 text-sm px-4 md:px-0">
+            <div className="flex flex-col md:flex-row md:gap-7 border-b-2 border-gray-500 py-2">
+              <div className="flex gap-1 items-center justify-center md:justify-start">
                 <FaCompass className="text-gray-400" />
-                <p className="font-semibold text-gray-400">ORIGIN:</p>{' '}
+                <p className="font-semibold text-gray-400">ORIGIN:</p>
               </div>
-              <p>Tizzle Lab</p>
+              <p className="text-white">Tizzle Lab</p>
             </div>
-            <div className="flex gap-10 border-b-2 border-gray-500 py-2">
-              <div className="flex gap-1 items-center">
+            <div className="flex flex-col md:flex-row md:gap-10 border-b-2 border-gray-500 py-2">
+              <div className="flex gap-1 items-center justify-center md:justify-start">
                 <FaDna className="text-gray-400" />
-                <p className="font-semibold text-gray-400">TYPE:</p>{' '}
+                <p className="font-semibold text-gray-400">TYPE:</p>
               </div>
-              <p>Cyborg</p>
+              <p className="text-white">Cyborg</p>
             </div>
           </div>
-          <button
-            className="bg-white text-black hover:bg-primary px-8 py-2 rounded text-lg transition duration-300 ease-in-out"
-            onClick={handleClickButton}
-          >
-            Start Conversation
-          </button>
+          <div className="flex justify-center md:justify-start">
+            <button
+              className="bg-white text-black hover:bg-primary px-8 py-2 rounded text-lg transition duration-300 ease-in-out"
+              onClick={handleClickButton}
+            >
+              Start Conversation
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -5,10 +5,11 @@ import useStore from '@tizzle-fe/stores/userStore';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
-import { FaCaretDown, FaWallet } from 'react-icons/fa';
+import { FaCaretDown, FaWallet, FaBars } from 'react-icons/fa';
 
 const Navbar = () => {
   const [agentDropdownOpen, setAgentDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const setSelectedAgent = useStore(state => state.setSelectedAgent);
   const { modal, accountId, signOut, loading, tokens } = useWallet();
   const agentDropdownRef = useRef(null);
@@ -16,6 +17,7 @@ const Navbar = () => {
   const handleOnclickLi = agent => {
     setSelectedAgent(agent);
     setAgentDropdownOpen(false);
+    setMobileMenuOpen(false);
   };
 
   const handleClickOutside = event => {
@@ -44,11 +46,21 @@ const Navbar = () => {
               alt="Tizzle Logo"
               width={120}
               height={40}
-              className="w-auto h-auto"
+              className="w-24 md:w-auto h-auto"
             />
           </div>
         </Link>
-        <nav className="space-x-4 relative">
+
+        {/* mobile menu button */}
+        <button
+          className="md:hidden text-white"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          <FaBars size={24} />
+        </button>
+
+        {/* desktop nav */}
+        <nav className="hidden md:flex space-x-4 relative">
           <a
             href="#"
             className="text-sm text-white font-bold hover:text-primary"
@@ -95,29 +107,73 @@ const Navbar = () => {
             )}
           </div>
         </nav>
-        {!accountId ? (
-          <button
-            className={`flex items-center space-x-2 bg-white hover:bg-primary text-black px-4 py-2 rounded transition duration-300 ease-in-out ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-            onClick={() => modal.show()}
-            disabled={loading}
-          >
-            <FaWallet className="text-lg" />
-            <span>Connect Wallet</span>
-          </button>
-        ) : (
-          <div className="flex gap-x-8">
-            <p>
-              Welcome, <span className="text-primary">{accountId}</span>
-            </p>
-            <p>
-              Tokens: <span className="text-primary">{tokens}</span>
-            </p>
+
+        {/* desktop */}
+        <div className="hidden md:block">
+          {!accountId ? (
             <button
-              className="border-2 border-red-500 px-2 text-red-500 rounded-md hover:bg-red-500 hover:text-white transition duration-300"
-              onClick={signOut}
+              className={`flex items-center space-x-2 bg-white hover:bg-primary text-black px-4 py-2 rounded transition duration-300 ease-in-out ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+              onClick={() => modal.show()}
+              disabled={loading}
             >
-              Sign Out
+              <FaWallet className="text-lg" />
+              <span>Connect Wallet</span>
             </button>
+          ) : (
+            <div className="flex gap-x-8">
+              <p>
+                Welcome, <span className="text-primary">{accountId}</span>
+              </p>
+              <p>
+                Tokens: <span className="text-primary">{tokens}</span>
+              </p>
+              <button
+                className="border-2 border-red-500 px-2 text-red-500 rounded-md hover:bg-red-500 hover:text-white transition duration-300"
+                onClick={signOut}
+              >
+                Sign Out
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* mobile menu */}
+        {mobileMenuOpen && (
+          <div className="absolute top-full left-0 w-full bg-black/90 md:hidden">
+            <div className="flex flex-col p-4">
+              <a href="#" className="text-white py-2">
+                WHITEPAPER
+              </a>
+
+              {/* mobile wallet section */}
+              <div className="pt-4 border-t border-gray-700 mt-4">
+                {!accountId ? (
+                  <button
+                    className={`flex items-center space-x-2 bg-white hover:bg-primary text-black px-4 py-2 rounded transition duration-300 ease-in-out w-full ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                    onClick={() => modal.show()}
+                    disabled={loading}
+                  >
+                    <FaWallet className="text-lg" />
+                    <span>Connect Wallet</span>
+                  </button>
+                ) : (
+                  <div className="flex flex-col gap-y-4 text-white">
+                    <p>
+                      Welcome, <span className="text-primary">{accountId}</span>
+                    </p>
+                    <p>
+                      Tokens: <span className="text-primary">{tokens}</span>
+                    </p>
+                    <button
+                      className="border-2 border-red-500 px-2 py-1 text-red-500 rounded-md hover:bg-red-500 hover:text-white transition duration-300"
+                      onClick={signOut}
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         )}
       </div>

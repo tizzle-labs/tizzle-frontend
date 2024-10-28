@@ -17,7 +17,17 @@ function BaleContent() {
 
 function BalePage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="h-screen w-full flex items-center justify-center">
+          <div className="loader">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      }
+    >
       <BaleContent />
     </Suspense>
   );

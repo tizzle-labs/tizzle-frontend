@@ -49,17 +49,17 @@ const HeroCortez = () => {
   return (
     <div className="bg-cortez-blue flex flex-col items-center justify-center text-center">
       <WaveCortez />
-      <div className="flex flex-col items-center justify-center py-12 -mt-64">
-        <div className="relative flex mb-6">
+      <div className="flex flex-col items-center justify-center py-12 md:-mt-64 -mt-0">
+        <div className="relative flex flex-col md:flex-row mb-6 px-4 md:px-0">
           <div>
-            <h1 className="text-8xl font-bold text-white mb-4">
+            <h1 className="text-4xl md:text-8xl font-bold text-white mb-4">
               MEET <span className="text-primary">OUR AGENTS</span>
             </h1>
-            <p className="text-xl text-white pl-52 max-w-3xl text-left mb-8">
+            <p className="text-lg md:text-xl text-white md:pl-52 max-w-3xl text-center md:text-left mb-8 px-4 md:px-0">
               Transform your NFT PFP into a 3D avatar. Now you can interact, ask
               questions, and explore more with personalized AI agent!
             </p>
-            <div className="flex justify-end w-full">
+            <div className="flex justify-center md:justify-end w-full">
               <button
                 className="flex items-center text-primary py-2 px-4 rounded-lg border border-primary hover:bg-primary hover:text-white transition"
                 onClick={scrollToTizzle}
@@ -69,7 +69,7 @@ const HeroCortez = () => {
               </button>
             </div>
           </div>
-          <div className="absolute top-20 flex items-center justify-center">
+          <div className="hidden absolute top-0 md:top-20 left-1/2 md:left-auto transform -translate-x-1/2 md:translate-x-0 md:flex items-center justify-center mt-4 md:mt-0">
             <div
               ref={objectRef}
               className="rounded-full flex items-center justify-center transition"
@@ -80,21 +80,21 @@ const HeroCortez = () => {
                   alt="Cortez Item"
                   width={200}
                   height={200}
-                  className="object-contain animate-slow-bounce w-[200px] h-[200px]"
+                  className="object-contain animate-slow-bounce w-[100px] h-[100px] md:w-[200px] md:h-[200px]"
                 />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="relative -mb-12">
+        <div className="relative -mb-12 px-4 md:px-0">
           <Image
             ref={imageRef}
             src="/assets/agents/cortez/cortez-half.png"
             alt="Cortez Half"
             width={380}
             height={380}
-            className="object-contain w-auto h-auto"
+            className="object-contain w-[280px] h-[280px] md:w-[380px] md:h-[380px]"
           />
         </div>
       </div>
