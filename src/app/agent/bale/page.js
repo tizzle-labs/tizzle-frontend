@@ -16,7 +16,6 @@ function BalePage() {
         agentPath={agentPath}
         transactionHashes={transactionHashes}
       />
-      ;
     </Suspense>
   );
 }
