@@ -98,7 +98,7 @@ const ChatInterface = ({
       )}
 
       {!isMinimized && (
-        <div className="self-end absolute w-1/4 h-3/4 backdrop-blur-md bg-white rounded-lg">
+        <div className="fixed md:absolute w-full md:w-1/4 h-[70vh] md:h-3/4 backdrop-blur-md bg-white rounded-lg right-0 bottom-24 md:bottom-auto md:right-4 top-auto md:top-4 mx-auto md:mx-0 max-w-lg">
           <div className="bg-black text-white px-4 py-2 flex justify-between items-center rounded-t-lg">
             <span>Messages</span>
             <button
