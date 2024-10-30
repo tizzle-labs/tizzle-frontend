@@ -87,7 +87,7 @@ const HeroCortez = () => {
           </div>
         </div>
 
-        <div className="relative -mb-12 px-4 md:px-0">
+        <div className="relative -mb-20 md:-mb-24 px-4 md:px-0">
           <Image
             ref={imageRef}
             src="/assets/agents/cortez/cortez-half.png"
