@@ -12,7 +12,9 @@ const Footer = () => {
           </p>
         </div>
         <div className="text-center md:text-right">
-          <p>Whitepaper</p>
+          <a href="https://tizzle-labs.gitbook.io/docs" target="_blank">
+            Whitepaper
+          </a>
         </div>
       </div>
       <div className="text-center mt-10 border-t-[1px] pt-2">
