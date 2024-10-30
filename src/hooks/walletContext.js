@@ -4,8 +4,6 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { setupWalletSelector } from '@near-wallet-selector/core';
 import { setupModal } from '@near-wallet-selector/modal-ui';
 import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
-import { setupBitteWallet } from '@near-wallet-selector/bitte-wallet';
-import { setupHereWallet } from '@near-wallet-selector/here-wallet';
 import { useUser } from './useUser';
 import { providers } from 'near-api-js';
 import useStore from '@tizzle-fe/stores/userStore';
@@ -31,7 +29,7 @@ export const WalletProvider = ({ children }) => {
       try {
         const selectorInstance = await setupWalletSelector({
           network: 'testnet',
-          modules: [setupMyNearWallet(), setupBitteWallet(), setupHereWallet()],
+          modules: [setupMyNearWallet()],
         });
 
         const modalInstance = setupModal(selectorInstance, {

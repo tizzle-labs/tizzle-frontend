@@ -62,7 +62,8 @@ const Navbar = () => {
         {/* desktop nav */}
         <nav className="hidden md:flex space-x-4 relative">
           <a
-            href="#"
+            href="https://tizzle-labs.gitbook.io/docs"
+            target="_blank"
             className="text-sm text-white font-bold hover:text-primary"
           >
             WHITEPAPER
