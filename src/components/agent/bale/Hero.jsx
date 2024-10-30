@@ -87,14 +87,14 @@ const HeroBale = () => {
           </div>
         </div>
 
-        <div className="relative -mb-12">
+        <div className="relative -mb-20 md:-mb-24 px-4 md:px-0">
           <Image
             ref={imageRef}
             src="/assets/agents/bale/bale-half.png"
             alt="Cortez Half"
             width={380}
             height={380}
-            className="object-contain w-auto h-auto"
+            className="object-contain w-[280px] h-[280px] md:w-[380px] md:h-[380px]"
           />
         </div>
       </div>
