@@ -1,5 +1,4 @@
 import './globals.css';
-import '@near-wallet-selector/modal-ui/styles.css';
 import { Kanit } from 'next/font/google';
 import { WalletProvider } from '@tizzle-fe/hooks/walletContext';
 import { UserProvider } from '@tizzle-fe/hooks/useUser';
