@@ -1,4 +1,3 @@
-import { utils } from 'near-api-js';
 import { FaInfoCircle, FaQuestionCircle, FaRobot, FaSun } from 'react-icons/fa';
 
 export const envPreset = agentPath => {
@@ -59,10 +58,9 @@ export const prettyTruncate = (amount, decimals = 2) => {
   return truncated;
 };
 
-export const formatNearAmount = amount => {
-  return utils.format.formatNearAmount(amount);
-};
-
-export const parseNearAmount = amount => {
-  return utils.format.parseNearAmount(amount);
+export const truncateAddress = address => {
+  const truncateRegex = /^(0x[a-zA-Z0-9]{4})[a-zA-Z0-9]+([a-zA-Z0-9]{4})$/;
+  const match = address.match(truncateRegex);
+  if (!match) return address;
+  return `${match[1]}…${match[2]}`;
 };

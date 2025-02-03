@@ -1,7 +1,10 @@
 'use client';
 
+import { useCurrentAccount, useDisconnectWallet } from '@mysten/dapp-kit';
+import { useSuiProvider } from '@tizzle-fe/hooks/suiContext';
 import { useWallet } from '@tizzle-fe/hooks/walletContext';
 import useStore from '@tizzle-fe/stores/userStore';
+import { truncateAddress } from '@tizzle-fe/utils/common';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
@@ -11,7 +14,12 @@ const Navbar = () => {
   const [agentDropdownOpen, setAgentDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const setSelectedAgent = useStore(state => state.setSelectedAgent);
-  const { modal, accountId, signOut, loading, tokens } = useWallet();
+  const { tokens } = useWallet();
+
+  const { setIsModalOpen } = useSuiProvider();
+  const { mutate: disconnect } = useDisconnectWallet();
+  const currentAccount = useCurrentAccount();
+
   const agentDropdownRef = useRef(null);
 
   const handleOnclickLi = agent => {
@@ -111,11 +119,10 @@ const Navbar = () => {
 
         {/* desktop */}
         <div className="hidden md:block">
-          {!accountId ? (
+          {!currentAccount ? (
             <button
-              className={`flex items-center space-x-2 bg-white hover:bg-primary text-black px-4 py-2 rounded transition duration-300 ease-in-out ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-              onClick={() => modal.show()}
-              disabled={loading}
+              className={`flex items-center space-x-2 bg-white hover:bg-primary text-black px-4 py-2 rounded transition duration-300 ease-in-out`}
+              onClick={() => setIsModalOpen(true)}
             >
               <FaWallet className="text-lg" />
               <span>Connect Wallet</span>
@@ -123,14 +130,17 @@ const Navbar = () => {
           ) : (
             <div className="flex gap-x-8">
               <p>
-                Welcome, <span className="text-primary">{accountId}</span>
+                Welcome,{' '}
+                <span className="text-primary">
+                  {truncateAddress(currentAccount.address)}
+                </span>
               </p>
               <p>
                 Tokens: <span className="text-primary">{tokens}</span>
               </p>
               <button
                 className="border-2 border-red-500 px-2 text-red-500 rounded-md hover:bg-red-500 hover:text-white transition duration-300"
-                onClick={signOut}
+                onClick={disconnect}
               >
                 Sign Out
               </button>
@@ -148,11 +158,10 @@ const Navbar = () => {
 
               {/* mobile wallet section */}
               <div className="pt-4 border-t border-gray-700 mt-4">
-                {!accountId ? (
+                {!currentAccount ? (
                   <button
-                    className={`flex items-center space-x-2 bg-white hover:bg-primary text-black px-4 py-2 rounded transition duration-300 ease-in-out w-full ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-                    onClick={() => modal.show()}
-                    disabled={loading}
+                    className={`flex items-center space-x-2 bg-white hover:bg-primary text-black px-4 py-2 rounded transition duration-300 ease-in-out w-full`}
+                    onClick={() => setIsModalOpen(true)}
                   >
                     <FaWallet className="text-lg" />
                     <span>Connect Wallet</span>
@@ -160,14 +169,17 @@ const Navbar = () => {
                 ) : (
                   <div className="flex flex-col gap-y-4 text-white">
                     <p>
-                      Welcome, <span className="text-primary">{accountId}</span>
+                      Welcome,{' '}
+                      <span className="text-primary">
+                        {truncateAddress(currentAccount.address)}
+                      </span>
                     </p>
                     <p>
                       Tokens: <span className="text-primary">{tokens}</span>
                     </p>
                     <button
                       className="border-2 border-red-500 px-2 py-1 text-red-500 rounded-md hover:bg-red-500 hover:text-white transition duration-300"
-                      onClick={signOut}
+                      onClick={disconnect}
                     >
                       Sign Out
                     </button>
