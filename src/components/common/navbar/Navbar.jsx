@@ -1,10 +1,16 @@
 'use client';
 
-import { useCurrentAccount, useDisconnectWallet } from '@mysten/dapp-kit';
+import {
+  useCurrentAccount,
+  useCurrentWallet,
+  useDisconnectWallet,
+} from '@mysten/dapp-kit';
 import { useSuiProvider } from '@tizzle-fe/hooks/suiContext';
 import { useWallet } from '@tizzle-fe/hooks/walletContext';
 import useStore from '@tizzle-fe/stores/userStore';
 import { truncateAddress } from '@tizzle-fe/utils/common';
+import clsx from 'clsx';
+import Cookies from 'js-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
@@ -14,10 +20,13 @@ const Navbar = () => {
   const [agentDropdownOpen, setAgentDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const setSelectedAgent = useStore(state => state.setSelectedAgent);
+  const { connectionStatus } = useCurrentWallet();
   const { tokens } = useWallet();
-
   const { setIsModalOpen } = useSuiProvider();
-  const { mutate: disconnect } = useDisconnectWallet();
+  const { mutate: disconnect } = useDisconnectWallet({
+    onSuccess: () => Cookies.remove('token'),
+  });
+
   const currentAccount = useCurrentAccount();
 
   const agentDropdownRef = useRef(null);
@@ -121,11 +130,19 @@ const Navbar = () => {
         <div className="hidden md:block">
           {!currentAccount ? (
             <button
-              className={`flex items-center space-x-2 bg-white hover:bg-primary text-black px-4 py-2 rounded transition duration-300 ease-in-out`}
+              className={clsx(
+                `flex items-center space-x-2 bg-white hover:bg-primary text-black px-4 py-2 rounded transition duration-300 ease-in-out`,
+                connectionStatus === 'connecting' && 'cursor-not-allowed',
+              )}
               onClick={() => setIsModalOpen(true)}
+              disabled={connectionStatus === 'connecting'}
             >
               <FaWallet className="text-lg" />
-              <span>Connect Wallet</span>
+              <span>
+                {connectionStatus === 'connecting'
+                  ? 'Connecting'
+                  : 'Connect Wallet'}
+              </span>
             </button>
           ) : (
             <div className="flex gap-x-8">
@@ -160,11 +177,18 @@ const Navbar = () => {
               <div className="pt-4 border-t border-gray-700 mt-4">
                 {!currentAccount ? (
                   <button
-                    className={`flex items-center space-x-2 bg-white hover:bg-primary text-black px-4 py-2 rounded transition duration-300 ease-in-out w-full`}
+                    className={clsx(
+                      `flex items-center space-x-2 bg-white hover:bg-primary text-black px-4 py-2 rounded transition duration-300 ease-in-out w-full`,
+                      connectionStatus === 'connecting' && 'cursor-not-allowed',
+                    )}
                     onClick={() => setIsModalOpen(true)}
                   >
                     <FaWallet className="text-lg" />
-                    <span>Connect Wallet</span>
+                    <span>
+                      {connectionStatus === 'connecting'
+                        ? 'Connecting'
+                        : 'Connect Wallet'}
+                    </span>
                   </button>
                 ) : (
                   <div className="flex flex-col gap-y-4 text-white">
