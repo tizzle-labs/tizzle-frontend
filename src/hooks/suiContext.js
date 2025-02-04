@@ -37,7 +37,7 @@ const SuiLayout = ({ children }) => {
 
 const SuiProvider = ({ children }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { mutate: signPersonalMessage } = useSignPersonalMessage();
+  const { mutateAsync: signPersonalMessage } = useSignPersonalMessage();
 
   const currentAccount = useCurrentAccount();
 
@@ -59,37 +59,34 @@ const SuiProvider = ({ children }) => {
             }),
           },
         );
-        const { data } = await challenge.json();
-        const { message, nonce } = data;
+        const { data: challengeData } = await challenge.json();
+        const { message, nonce } = challengeData;
 
-        signPersonalMessage(
-          { message: new TextEncoder().encode(message) },
+        const result = await signPersonalMessage({
+          message: new TextEncoder().encode(message),
+        });
+
+        const signature = result.signature;
+        const verify = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/verify`,
           {
-            onSuccess: async result => {
-              const signature = result.signature;
-              const verify = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/verify`,
-                {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({
-                    wallet_public_key: currentAccount.address,
-                    signature,
-                    nonce,
-                  }),
-                },
-              );
-              const { data } = await verify.json();
-              const { access_token } = data;
-              Cookies.set('token', access_token);
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
             },
-            onError: error => console.log('error sign message', error),
+            body: JSON.stringify({
+              wallet_public_key: currentAccount.address,
+              signature,
+              nonce,
+            }),
           },
         );
+        const { data: verifyData } = await verify.json();
+        const { access_token } = verifyData;
+        Cookies.set('token', access_token);
       } catch (error) {
         // TODO Handle Error
+        console.log('error verify user', error);
       }
     };
 
