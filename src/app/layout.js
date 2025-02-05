@@ -9,7 +9,7 @@ import '@mysten/dapp-kit/dist/index.css';
 const kanit = Kanit({
   subsets: ['latin'],
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  style: ['normal', 'italic'],
+  variable: '--font-kanit',
   display: 'swap',
 });
 
@@ -20,8 +20,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={kanit.className}>
+    <html lang="en" className={kanit.className}>
+      <body>
         <main>
           <SuiContext>
             <UserProvider>
