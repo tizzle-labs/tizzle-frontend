@@ -6,7 +6,6 @@ import {
   useDisconnectWallet,
 } from '@mysten/dapp-kit';
 import { useSuiProvider } from '@tizzle-fe/hooks/suiContext';
-import { useWallet } from '@tizzle-fe/hooks/walletContext';
 import useStore from '@tizzle-fe/stores/userStore';
 import { truncateAddress } from '@tizzle-fe/utils/common';
 import clsx from 'clsx';
@@ -22,7 +21,6 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const setSelectedAgent = useStore(state => state.setSelectedAgent);
   const { connectionStatus } = useCurrentWallet();
-  const { tokens } = useWallet();
   const { setIsModalOpen } = useSuiProvider();
   const { mutate: disconnect } = useDisconnectWallet({
     onSuccess: () => Cookies.remove('token'),
@@ -33,6 +31,21 @@ const Navbar = () => {
   const currentAccount = useCurrentAccount();
 
   const agentDropdownRef = useRef(null);
+
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const backgroundColor = `rgba(0, 0, 0, ${scrollProgress})`;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const viewportHeight = window.innerHeight - 300;
+      const progress = Math.min(scrollPosition / viewportHeight, 1);
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleOnclickLi = agent => {
     setSelectedAgent(agent);
@@ -64,6 +77,7 @@ const Navbar = () => {
         'sticky top-0 left-0 w-full transition duration-300 z-50',
         pathName !== '/' ? 'bg-black' : 'bg-transparent',
       )}
+      style={{ backgroundColor: pathName === '/' ? backgroundColor : null }}
     >
       <div className="container mx-auto flex justify-between items-center p-4">
         <Link href="/" passHref>
@@ -162,9 +176,6 @@ const Navbar = () => {
                   {truncateAddress(currentAccount.address)}
                 </span>
               </p>
-              <p>
-                Tokens: <span className="text-primary">{tokens}</span>
-              </p>
               <button
                 className="border-2 border-red-500 px-2 text-red-500 rounded-md hover:bg-red-500 hover:text-white transition duration-300"
                 onClick={disconnect}
@@ -207,9 +218,6 @@ const Navbar = () => {
                       <span className="text-primary">
                         {truncateAddress(currentAccount.address)}
                       </span>
-                    </p>
-                    <p>
-                      Tokens: <span className="text-primary">{tokens}</span>
                     </p>
                     <button
                       className="border-2 border-red-500 px-2 py-1 text-red-500 rounded-md hover:bg-red-500 hover:text-white transition duration-300"
