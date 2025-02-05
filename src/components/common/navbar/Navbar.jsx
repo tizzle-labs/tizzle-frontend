@@ -13,6 +13,7 @@ import clsx from 'clsx';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { FaCaretDown, FaWallet, FaBars } from 'react-icons/fa';
 
@@ -26,7 +27,9 @@ const Navbar = () => {
   const { mutate: disconnect } = useDisconnectWallet({
     onSuccess: () => Cookies.remove('token'),
   });
+  const router = useRouter();
 
+  const pathName = usePathname();
   const currentAccount = useCurrentAccount();
 
   const agentDropdownRef = useRef(null);
@@ -35,6 +38,8 @@ const Navbar = () => {
     setSelectedAgent(agent);
     setAgentDropdownOpen(false);
     setMobileMenuOpen(false);
+
+    router.push(`/agent/overview/${agent}`);
   };
 
   const handleClickOutside = event => {
@@ -54,7 +59,12 @@ const Navbar = () => {
   }, []);
 
   return (
-    <header className="sticky top-0 left-0 w-full transition duration-300 bg-transparent z-50">
+    <header
+      className={clsx(
+        'sticky top-0 left-0 w-full transition duration-300 z-50',
+        pathName !== '/' ? 'bg-black' : 'bg-transparent',
+      )}
+    >
       <div className="container mx-auto flex justify-between items-center p-4">
         <Link href="/" passHref>
           <div className="flex items-center">

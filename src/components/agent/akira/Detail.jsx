@@ -1,6 +1,7 @@
+import { useCurrentAccount } from '@mysten/dapp-kit';
 import AgentSelector from '@tizzle-fe/components/common/selector/AgentSelector';
 import { AKIRA_AGENT } from '@tizzle-fe/constants/agent';
-import { useWallet } from '@tizzle-fe/hooks/walletContext';
+import { useSuiProvider } from '@tizzle-fe/hooks/suiContext';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { FaCompass, FaDna } from 'react-icons/fa';
@@ -11,14 +12,15 @@ const AkiraModel = dynamic(() => import('../Model'), {
 
 const Detail = () => {
   const router = useRouter();
-  const { accountId, modal } = useWallet();
+  const { setIsModalOpen } = useSuiProvider();
+  const currentAccount = useCurrentAccount();
 
   const handleClickButton = () => {
-    if (!accountId) {
-      modal.show();
+    if (!currentAccount) {
+      setIsModalOpen(true);
       return;
     }
-    router.push('/agent/akira');
+    router.push('/agent/chat/akira');
   };
 
   return (

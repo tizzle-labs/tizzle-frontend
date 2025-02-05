@@ -9,7 +9,7 @@ const Crew = () => {
           {`Tired of boring, predictable AI interactions? We've created a diverse cast of AI agents, each with their own quirks, strengths, and distinctive personalities.`}
         </p>
       </div>
-      <div className="mx-8 px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="md:mx-8 px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="bg-white h-96 rounded-xl"></div>
         <div className="bg-white h-96 rounded-xl"></div>
         <div className="bg-white h-96 rounded-xl"></div>

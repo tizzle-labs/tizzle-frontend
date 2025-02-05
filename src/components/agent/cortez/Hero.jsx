@@ -47,7 +47,7 @@ const HeroCortez = () => {
   };
 
   return (
-    <div className="bg-cortez-blue flex flex-col items-center justify-center text-center">
+    <div className="bg-black flex flex-col items-center justify-center text-center">
       <WaveCortez />
       <div className="flex flex-col items-center justify-center py-12 md:-mt-64 -mt-0">
         <div className="relative flex flex-col md:flex-row mb-6 px-4 md:px-0">
