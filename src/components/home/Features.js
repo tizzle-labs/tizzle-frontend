@@ -38,12 +38,19 @@ const Features = () => {
             interaction is a new adventure and experience
           </p>
         </div>
-        <div className="md:col-span-4 row-span-2 p-4 flex flex-col justify-between rounded-xl overflow-hidden relative">
+        <div className="md:col-span-4 row-span-2 p-4 flex flex-col justify-between rounded-xl relative">
           <Image
             src="/assets/feature/feature3.png"
             fill
             alt="aa"
-            className="object-cover -z-10"
+            className="object-cover -z-10 overflow-hidden rounded-xl"
+          />
+          <Image
+            src="/assets/feature/comingsoon.png"
+            height={35}
+            width={120}
+            alt="aa"
+            className="absolute -top-4 -right-4 select-none"
           />
           <h3 className="font-semibold text-xl mb-4">Social media presence</h3>
           <p className="font-light text-sm">
