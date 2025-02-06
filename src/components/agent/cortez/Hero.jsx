@@ -10,7 +10,7 @@ const HeroCortez = () => {
   const objectRef = useRef(null);
   const titleRef = useRef(null);
   const imageRef = useRef(null);
-  const demoArray = Array(20).fill('TIZZLE - X - NEAR');
+  const demoArray = Array(20).fill('TIZZLE - X - SUI');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,7 +53,7 @@ const HeroCortez = () => {
         <div className="relative flex flex-col md:flex-row mb-6 px-4 md:px-0">
           <div>
             <h1 className="text-4xl md:text-8xl font-bold text-white mb-4">
-              MEET <span className="text-primary">OUR AGENTS</span>
+              MEET <span className="text-primary">CORTEZ</span>
             </h1>
             <p className="text-lg md:text-xl text-white md:pl-52 max-w-3xl text-center md:text-left mb-8 px-4 md:px-0">
               Transform your NFT PFP into a 3D avatar. Now you can interact, ask

@@ -1,6 +1,6 @@
 # Tizzle Frontend
 
-Welcome to the Tizzle Frontend repository! This project is designed to provide an engaging and dynamic user interface for interacting with Tizzle's AI agents on the NEAR Protocol blockchain.
+Welcome to the Tizzle Frontend repository! This project is designed to provide an engaging and dynamic user interface for interacting with Tizzle's AI agents on the SUI blockchain.
 
 ## Features
 
