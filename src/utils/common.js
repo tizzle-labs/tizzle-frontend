@@ -46,10 +46,8 @@ export const agentSuggentions = agentName => {
         { text: 'Give me a guess.', icon: <FaRobot /> },
       ];
     default:
-      break;
+      return [];
   }
-
-  return suggestions;
 };
 
 export const prettyTruncate = (amount, decimals = 2) => {

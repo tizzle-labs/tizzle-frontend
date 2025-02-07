@@ -3,7 +3,7 @@ import Navbar from '@tizzle-fe/components/common/navbar/Navbar';
 import AgentOverview from '@tizzle-fe/components/overview/AgentOverview';
 
 async function AgentOverviewPage({ params }) {
-  const agentName = (await params).agentName;
+  const agent = (await params).agent;
 
   return (
     <>
