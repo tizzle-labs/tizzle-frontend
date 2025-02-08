@@ -109,10 +109,7 @@ const ChatInterface = ({
             </button>
           </div>
 
-          <div
-            className="flex-grow p-4 overflow-y-auto"
-            style={{ maxHeight: 'calc(100% - 80px)' }}
-          >
+          <div className="flex-grow p-4 overflow-y-auto">
             <div className="space-y-4">
               {showSuggestions && messages.length === 0 && !loading && (
                 <>
@@ -130,7 +127,7 @@ const ChatInterface = ({
                       <div
                         key={idx}
                         onClick={() => handleSuggestionClick(suggestion)}
-                        className="cursor-pointer p-3 h-32 text-black rounded-lg shadow-lg hover:bg-primary transition"
+                        className="cursor-pointer p-3 text-black rounded-lg shadow-lg hover:bg-primary transition"
                       >
                         <p className="mb-4">{suggestion.icon}</p>
                         <p className="text-sm">{suggestion.text}</p>

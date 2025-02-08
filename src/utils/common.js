@@ -45,6 +45,22 @@ export const agentSuggentions = agentName => {
         { text: 'Why do you work at Tizzle?', icon: <FaSun /> },
         { text: 'Give me a guess.', icon: <FaRobot /> },
       ];
+    case 'jordan':
+      return [
+        {
+          text: "Bro, I'm stressed out. My portfolio is red. Is this the end of crypto as we know it?",
+          icon: <FaQuestionCircle />,
+        },
+        {
+          text: "Dude, Bitcoin just dropped 10%! I'm freaking out!",
+          icon: <FaInfoCircle />,
+        },
+        { text: 'Broh, meme coin are crazy', icon: <FaSun /> },
+        {
+          text: "I think I'm gonna sell all my crypto. This market is too stressful",
+          icon: <FaRobot />,
+        },
+      ];
     default:
       return [];
   }
