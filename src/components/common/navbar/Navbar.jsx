@@ -5,6 +5,7 @@ import {
   useCurrentWallet,
   useDisconnectWallet,
 } from '@mysten/dapp-kit';
+import { AVAILABLE_AGENT_V2 } from '@tizzle-fe/constants/agent';
 import { useSuiProvider } from '@tizzle-fe/hooks/suiContext';
 import useStore from '@tizzle-fe/stores/userStore';
 import { truncateAddress } from '@tizzle-fe/utils/common';
@@ -74,10 +75,9 @@ const Navbar = () => {
   return (
     <header
       className={clsx(
-        'sticky top-0 left-0 w-full transition duration-300 z-50',
-        pathName !== '/' ? 'bg-black' : 'bg-transparent',
+        'sticky top-0 left-0 w-full transition duration-300 z-50 bg-transparent',
       )}
-      style={{ backgroundColor: pathName === '/' ? backgroundColor : null }}
+      style={{ backgroundColor: backgroundColor }}
     >
       <div className="container mx-auto flex justify-between items-center p-4">
         <Link href="/" passHref>
@@ -121,30 +121,16 @@ const Navbar = () => {
             </button>
             {agentDropdownOpen && (
               <ul className="absolute top-full left-0 mt-2 w-40 bg-white text-black rounded-lg shadow-lg z-10">
-                <li>
-                  <div
-                    className="block px-4 py-2 hover:bg-green-400/80 rounded-t-lg cursor-pointer"
-                    onClick={() => handleOnclickLi('cortez')}
-                  >
-                    Cortez
-                  </div>
-                </li>
-                <li>
-                  <div
-                    className="block px-4 py-2 hover:bg-green-400/80 cursor-pointer"
-                    onClick={() => handleOnclickLi('akira')}
-                  >
-                    Akira
-                  </div>
-                </li>
-                <li>
-                  <div
-                    className="block px-4 py-2 hover:bg-green-400/80 rounded-b-lg cursor-pointer"
-                    onClick={() => handleOnclickLi('bale')}
-                  >
-                    Bale
-                  </div>
-                </li>
+                {AVAILABLE_AGENT_V2.map(agent => (
+                  <li key={agent}>
+                    <div
+                      className="block px-4 py-2 hover:bg-green-400/80 rounded-t-lg cursor-pointer capitalize"
+                      onClick={() => handleOnclickLi(agent)}
+                    >
+                      {agent}
+                    </div>
+                  </li>
+                ))}
               </ul>
             )}
           </div>

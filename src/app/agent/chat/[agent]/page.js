@@ -1,12 +1,11 @@
 import { Suspense } from 'react';
 import { AgentCanvas } from '@tizzle-fe/components/interactions/AgentCanvas';
-
-const AVAILABLE_AGENT = ['akira', 'bale', 'cortez', 'jordan', 'mike', 'isaac'];
+import { AVAILABLE_AGENT_V2 } from '@tizzle-fe/constants/agent';
 
 async function AgentPage({ params }) {
   const agent = (await params).agent;
 
-  if (!AVAILABLE_AGENT.includes(agent)) {
+  if (!AVAILABLE_AGENT_V2.includes(agent)) {
     return;
   }
 
