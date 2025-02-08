@@ -1,3 +1,6 @@
+import Image from 'next/image';
+import Link from 'next/link';
+
 const Crew = () => {
   return (
     <div className="py-16 m-2 max-w-5xl mx-auto">
@@ -10,9 +13,39 @@ const Crew = () => {
         </p>
       </div>
       <div className="md:mx-8 px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="bg-white h-96 rounded-xl"></div>
-        <div className="bg-white h-96 rounded-xl"></div>
-        <div className="bg-white h-96 rounded-xl"></div>
+        <Link href="/agent/overview/isaac">
+          <div className="bg-black rounded-xl overflow-hidden object-cover">
+            <Image
+              src="/assets/cards/isaac.png"
+              alt="isaac-card"
+              width={500}
+              height={800}
+              className="rounded-lg w-screen object-cover object-top -z-10"
+            />
+          </div>
+        </Link>
+        <Link href="/agent/overview/mike">
+          <div className="bg-black rounded-xl overflow-hidden object-cover">
+            <Image
+              src="/assets/cards/mike.png"
+              alt="mike-card"
+              width={500}
+              height={800}
+              className="rounded-lg w-screen object-cover object-top -z-10"
+            />
+          </div>
+        </Link>
+        <Link href="/agent/overview/jordan">
+          <div className="bg-black rounded-xl overflow-hidden object-cover">
+            <Image
+              src="/assets/cards/jordan.png"
+              alt="jordan-card"
+              width={500}
+              height={800}
+              className="rounded-lg w-full -z-10"
+            />
+          </div>
+        </Link>
       </div>
     </div>
   );

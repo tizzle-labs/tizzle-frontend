@@ -10,10 +10,11 @@ import Modal from '../common/modal/Modal';
 import { createAvatar } from '@dicebear/avatars';
 import * as style from '@dicebear/avatars-identicon-sprites';
 import { IconNear } from '../common/svg';
-import { prettyTruncate } from '@tizzle-fe/utils/common';
+import { prettyTruncate, truncateAddress } from '@tizzle-fe/utils/common';
 import { buyToken } from '@tizzle-fe/services/nearService';
 import Confetti from 'react-confetti';
 import { useUser } from '@tizzle-fe/hooks/useUser';
+import { useCurrentAccount } from '@mysten/dapp-kit';
 
 export const AgentInteraction = ({ agentPath, hidden, transactionHashes }) => {
   const [messages, setMessages] = useState([]);
@@ -32,14 +33,10 @@ export const AgentInteraction = ({ agentPath, hidden, transactionHashes }) => {
   const { tts, loading, messages: agentMessages } = useSpeech();
   const { updateToken, createTokenHistory } = useUser();
 
-  const {
-    selector,
-    accountId,
-    balance,
-    tokens,
-    setTokens: updateTokens,
-  } = useWallet();
+  const { selector, balance, tokens, setTokens: updateTokens } = useWallet();
 
+  const account = useCurrentAccount();
+  const accountId = account?.address || '';
   const avatarUrl = createAvatar(style, {
     seed: accountId,
     dataUri: true,
@@ -170,7 +167,7 @@ export const AgentInteraction = ({ agentPath, hidden, transactionHashes }) => {
             alt="Avatar"
             className="rounded-full w-32 h-32 mb-4"
           />
-          <p className="text-lg">{accountId}</p>
+          <p className="text-lg">{truncateAddress(accountId)}</p>
           <p className="text-lg">{tokens} Tokens</p>
         </div>
       </Modal>
@@ -276,11 +273,12 @@ export const AgentInteraction = ({ agentPath, hidden, transactionHashes }) => {
           {/* mobile: text above buttons */}
           <div className="flex flex-col justify-between mb-2 md:hidden">
             <p className="text-white text-sm">
-              Account ID: <span className="text-primary">{accountId}</span>
+              Account ID:{' '}
+              <span className="text-primary">{truncateAddress(accountId)}</span>
             </p>
-            <p className="text-white text-sm">
+            {/* <p className="text-white text-sm">
               Tokens: <span className="text-primary">{tokens}</span>
-            </p>
+            </p> */}
           </div>
 
           {/* mobile: button */}
@@ -294,20 +292,21 @@ export const AgentInteraction = ({ agentPath, hidden, transactionHashes }) => {
 
             {/* desktop: account ID */}
             <p className="hidden md:block md:col-span-3 text-white">
-              Account ID: <span className="text-primary">{accountId}</span>
+              Account ID:{' '}
+              <span className="text-primary">{truncateAddress(accountId)}</span>
             </p>
 
-            <button
+            {/* <button
               className="w-[48%] md:w-32 border-2 border-primary px-2 py-1 text-primary rounded-md hover:bg-primary hover:text-white transition duration-300 text-sm"
               onClick={() => setTokenModalOpen(true)}
             >
               Buy Token
-            </button>
+            </button> */}
 
             {/* desktop: tokens */}
-            <p className="hidden md:block text-white">
+            {/* <p className="hidden md:block text-white">
               Tokens: <span className="text-primary">{tokens}</span>
-            </p>
+            </p> */}
           </div>
         </div>
       </div>

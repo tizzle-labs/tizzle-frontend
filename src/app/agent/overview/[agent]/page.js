@@ -77,12 +77,12 @@ function AgentOverviewPage({ params }) {
                 </div>
               ))}
             </div>
-            <div className="grid grid-cols-6 gap-6 md:gap-8">
+            {/* <div className="grid grid-cols-6 gap-6 md:gap-8">
               <div className="bg-white h-full w-full aspect-square" />
               <div className="bg-white h-full w-full aspect-square" />
               <div className="bg-white h-full w-full aspect-square" />
               <div className="bg-white h-full w-full aspect-square" />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
