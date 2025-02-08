@@ -55,12 +55,12 @@ const SuiProvider = ({ children }) => {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              wallet_public_key: currentAccount.address,
+              wallet_address: currentAccount.address,
+              wallet_id: 'suiwallet',
             }),
           },
         );
-        const { data: challengeData } = await challenge.json();
-        const { message, nonce } = challengeData;
+        const { message, nonce } = await challenge.json();
 
         const result = await signPersonalMessage({
           message: new TextEncoder().encode(message),
@@ -75,13 +75,13 @@ const SuiProvider = ({ children }) => {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              wallet_public_key: currentAccount.address,
+              wallet_address: currentAccount.address,
               signature,
               nonce,
             }),
           },
         );
-        const { data: verifyData } = await verify.json();
+        const { user: verifyData } = await verify.json();
         const { access_token } = verifyData;
         Cookies.set('token', access_token);
       } catch (error) {
