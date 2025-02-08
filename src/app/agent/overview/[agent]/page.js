@@ -95,7 +95,7 @@ function AgentOverviewPage({ params }) {
             fill="cover"
             className="rounded-lg w-screen max-h-[80vh] object-cover object-top -z-10"
           />
-          <h2 className="text-center font-bold text-xl mb-6">{`Isaac's Specialization`}</h2>
+          <h2 className="text-center font-bold text-xl mb-6 capitalize">{`${agent}'s Specialization`}</h2>
           <div className="max-w-4xl mx-4 md:mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             {AGENT_DATA.specialization.map((spec, idx) => (
               <div key={idx} className="text-center p-2 rounded-lg">
