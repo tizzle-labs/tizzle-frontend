@@ -5,6 +5,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { useWallet } from './walletContext';
 import useStore from '@tizzle-fe/stores/userStore';
 import { useCurrentAccount } from '@mysten/dapp-kit';
+import Cookies from 'js-cookie';
 
 const SpeechContext = createContext();
 
@@ -29,6 +30,7 @@ export const SpeechProvider = ({ children }) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${Cookies.get('token')}`,
           },
           body: JSON.stringify({
             message,
