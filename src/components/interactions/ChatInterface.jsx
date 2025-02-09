@@ -98,8 +98,8 @@ const ChatInterface = ({
       )}
 
       {!isMinimized && (
-        <div className="fixed md:absolute w-full md:w-1/4 h-[70vh] md:h-3/4 backdrop-blur-md bg-white rounded-lg right-0 bottom-24 md:bottom-auto md:right-4 top-auto md:top-4 mx-auto md:mx-0 max-w-lg">
-          <div className="bg-black text-white px-4 py-2 flex justify-between items-center rounded-t-lg">
+        <div className="fixed flex flex-col md:absolute w-full md:w-1/4 overflow-y-scroll h-[70vh] md:h-3/4 backdrop-blur-md bg-white rounded-lg right-0 bottom-24 md:bottom-auto md:right-4 top-auto md:top-4 mx-auto md:mx-0 max-w-lg">
+          <div className="bg-black sticky top-0 text-white px-4 py-2 flex justify-between items-center rounded-t-lg">
             <span>Messages</span>
             <button
               className="hover:bg-primary p-2 rounded-lg transition"
@@ -109,7 +109,7 @@ const ChatInterface = ({
             </button>
           </div>
 
-          <div className="flex-grow p-4 overflow-y-auto">
+          <div className="flex-grow p-4">
             <div className="space-y-4">
               {showSuggestions && messages.length === 0 && !loading && (
                 <>
@@ -151,7 +151,7 @@ const ChatInterface = ({
                           {message.text}
                         </div>
                       ) : (
-                        <div className="grid grid-cols-12 gap-x-4 justify-start">
+                        <div className="grid grid-cols-12 gap-x-4 justify-start w-full">
                           <div className="col-span-2">
                             {idx === 0 && (
                               <Image
@@ -164,7 +164,18 @@ const ChatInterface = ({
                             )}
                           </div>
                           <div className="col-span-10">
-                            <p className="text-sm mb-2">{message.text}</p>
+                            {message.text.includes('```') ? (
+                              <div className="w-full overflow-x-scroll">
+                                <pre className="whitespace-pre-wrap md:w-[40vw] font-mono text-xs">
+                                  {message.text
+                                    .replaceAll('```', '')
+                                    .replace(/\\n/g, '\n')}
+                                </pre>
+                              </div>
+                            ) : (
+                              <p className="text-sm mb-2">{message.text}</p>
+                            )}
+
                             {group.length === 1 || group.length - 1 === idx ? (
                               <button
                                 id={idx}
@@ -211,7 +222,7 @@ const ChatInterface = ({
             </div>
           </div>
 
-          <div className="absolute bottom-0 w-full bg-white border-t-[1px] border-gray-200 p-4 flex justify-center rounded-b-lg">
+          <div className="sticky bottom-0 w-full bg-white border-t-[1px] border-gray-200 p-4 flex justify-center rounded-b-lg">
             <p className="text-[10px] text-center">
               Always double check critical information as agent can make
               mistakes.

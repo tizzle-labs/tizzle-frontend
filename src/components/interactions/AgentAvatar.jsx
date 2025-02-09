@@ -131,7 +131,7 @@ export const AgentAvatar = ({ agentPath, props }) => {
     const appliedMorphTargets = [];
     if (message && lipsync) {
       const currentAudioTime = audio.currentTime;
-      for (let i = 0; i < lipsync.mouthCues.length; i++) {
+      for (let i = 0; i < (lipsync.mouthCues?.length || 0); i++) {
         const mouthCue = lipsync.mouthCues[i];
         if (
           currentAudioTime >= mouthCue.start &&
