@@ -61,6 +61,44 @@ export const agentSuggentions = agentName => {
           icon: <FaRobot />,
         },
       ];
+    case 'isaac':
+      return [
+        {
+          text: 'How do I write a smart contract on Sui?',
+          icon: <FaQuestionCircle />,
+        },
+        {
+          text: 'What are the key differences between Sui and Solana?',
+          icon: <FaInfoCircle />,
+        },
+        {
+          text: 'What are the best resources for learning Sui development?',
+          icon: <FaSun />,
+        },
+        {
+          text: 'How do I integrate with the Sui API?',
+          icon: <FaRobot />,
+        },
+      ];
+    case 'mike':
+      return [
+        {
+          text: 'What is the difference between RSI and MACD indicators?',
+          icon: <FaQuestionCircle />,
+        },
+        {
+          text: 'How do liquidity pools work in decentralized exchanges?',
+          icon: <FaInfoCircle />,
+        },
+        {
+          text: 'What are the main differences between Proof of Work and Proof of Stake?',
+          icon: <FaSun />,
+        },
+        {
+          text: 'How do whale movements affect cryptocurrency prices?',
+          icon: <FaRobot />,
+        },
+      ];
     default:
       return [];
   }
