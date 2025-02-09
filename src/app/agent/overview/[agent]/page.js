@@ -1,5 +1,6 @@
 'use client';
 
+import { useCurrentAccount } from '@mysten/dapp-kit';
 import Footer from '@tizzle-fe/components/common/footer/Footer';
 import Navbar from '@tizzle-fe/components/common/navbar/Navbar';
 import Agent3DOverview from '@tizzle-fe/components/overview/Agent3DOverview';
@@ -8,12 +9,15 @@ import {
   ALL_AGENT_DATA,
   SPECIALIZATION_ICON,
 } from '@tizzle-fe/constants/agentOverview';
+import { useSuiProvider } from '@tizzle-fe/hooks/suiContext';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 
 function AgentOverviewPage({ params }) {
   const { agent } = useParams();
   const router = useRouter();
+  const account = useCurrentAccount();
+  const { setIsModalOpen } = useSuiProvider();
 
   if (!AVAILABLE_AGENT_V2.includes(agent)) {
     return;
@@ -22,6 +26,11 @@ function AgentOverviewPage({ params }) {
   const AGENT_DATA = ALL_AGENT_DATA[agent];
 
   const onClickChat = () => {
+    if (!account) {
+      setIsModalOpen(true);
+      return;
+    }
+
     router.push(`/agent/chat/${agent}`);
   };
 

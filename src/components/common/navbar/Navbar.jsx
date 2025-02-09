@@ -28,7 +28,6 @@ const Navbar = () => {
   });
   const router = useRouter();
 
-  const pathName = usePathname();
   const currentAccount = useCurrentAccount();
 
   const agentDropdownRef = useRef(null);
