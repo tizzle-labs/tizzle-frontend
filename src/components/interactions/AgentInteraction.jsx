@@ -168,7 +168,7 @@ export const AgentInteraction = ({ agentPath, hidden, transactionHashes }) => {
             className="rounded-full w-32 h-32 mb-4"
           />
           <p className="text-lg">{truncateAddress(accountId)}</p>
-          <p className="text-lg">{tokens} Tokens</p>
+          {/* <p className="text-lg">{tokens} Tokens</p> */}
         </div>
       </Modal>
 
