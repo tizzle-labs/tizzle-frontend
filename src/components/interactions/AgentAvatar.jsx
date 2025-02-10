@@ -48,10 +48,14 @@ export const AgentAvatar = ({ agentPath, props }) => {
     setAnimation(message.animation);
     setFacialExpression(message.facialExpression);
     setLipsync(message.lipsync);
-    const audio = new Audio('data:audio/mp3;base64,' + message.audio);
-    audio.play();
-    setAudio(audio);
-    audio.onended = onMessagePlayed;
+    if (message.audio) {
+      const audio = new Audio('data:audio/mp3;base64,' + message.audio);
+      audio.play();
+      setAudio(audio);
+      audio.onended = onMessagePlayed;
+    } else {
+      onMessagePlayed();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [message]);
 
@@ -131,7 +135,7 @@ export const AgentAvatar = ({ agentPath, props }) => {
     const appliedMorphTargets = [];
     if (message && lipsync) {
       const currentAudioTime = audio.currentTime;
-      for (let i = 0; i < lipsync.mouthCues.length; i++) {
+      for (let i = 0; i < (lipsync.mouthCues?.length || 0); i++) {
         const mouthCue = lipsync.mouthCues[i];
         if (
           currentAudioTime >= mouthCue.start &&

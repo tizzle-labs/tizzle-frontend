@@ -4,6 +4,8 @@ import { usePathname } from 'next/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useWallet } from './walletContext';
 import useStore from '@tizzle-fe/stores/userStore';
+import { useCurrentAccount } from '@mysten/dapp-kit';
+import Cookies from 'js-cookie';
 
 const SpeechContext = createContext();
 
@@ -16,19 +18,24 @@ export const SpeechProvider = ({ children }) => {
   const agentPath = pathname.split('/').filter(Boolean).pop();
   const { setTokens: updateToken } = useWallet();
 
+  const currentAccount = useCurrentAccount();
   const setUpdatedToken = useStore(state => state.setUpdatedToken);
 
   const tts = async (message, accountId) => {
     setLoading(true);
     try {
       const data = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/tts/${agentPath}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/tts/${agentPath}`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${Cookies.get('token')}`,
           },
-          body: JSON.stringify({ message, account_id: accountId }),
+          body: JSON.stringify({
+            message,
+            wallet_address: currentAccount.address,
+          }),
         },
       );
 

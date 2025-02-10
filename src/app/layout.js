@@ -1,13 +1,15 @@
-import './globals.css';
-import '@near-wallet-selector/modal-ui/styles.css';
 import { Kanit } from 'next/font/google';
 import { WalletProvider } from '@tizzle-fe/hooks/walletContext';
 import { UserProvider } from '@tizzle-fe/hooks/useUser';
+import SuiContext from '@tizzle-fe/hooks/suiContext';
+
+import './globals.css';
+import '@mysten/dapp-kit/dist/index.css';
 
 const kanit = Kanit({
   subsets: ['latin'],
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  style: ['normal', 'italic'],
+  variable: '--font-kanit',
   display: 'swap',
 });
 
@@ -18,12 +20,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={kanit.className}>
+    <html lang="en" className={kanit.className}>
+      <body>
         <main>
-          <UserProvider>
-            <WalletProvider>{children}</WalletProvider>
-          </UserProvider>
+          <SuiContext>
+            <UserProvider>
+              <WalletProvider>{children}</WalletProvider>
+            </UserProvider>
+          </SuiContext>
         </main>
       </body>
     </html>

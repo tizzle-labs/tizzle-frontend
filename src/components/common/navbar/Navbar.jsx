@@ -1,9 +1,19 @@
 'use client';
 
-import { useWallet } from '@tizzle-fe/hooks/walletContext';
+import {
+  useCurrentAccount,
+  useCurrentWallet,
+  useDisconnectWallet,
+} from '@mysten/dapp-kit';
+import { AVAILABLE_AGENT_V2 } from '@tizzle-fe/constants/agent';
+import { useSuiProvider } from '@tizzle-fe/hooks/suiContext';
 import useStore from '@tizzle-fe/stores/userStore';
+import { truncateAddress } from '@tizzle-fe/utils/common';
+import clsx from 'clsx';
+import Cookies from 'js-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { FaCaretDown, FaWallet, FaBars } from 'react-icons/fa';
 
@@ -11,13 +21,38 @@ const Navbar = () => {
   const [agentDropdownOpen, setAgentDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const setSelectedAgent = useStore(state => state.setSelectedAgent);
-  const { modal, accountId, signOut, loading, tokens } = useWallet();
+  const { connectionStatus } = useCurrentWallet();
+  const { setIsModalOpen } = useSuiProvider();
+  const { mutate: disconnect } = useDisconnectWallet({
+    onSuccess: () => Cookies.remove('token'),
+  });
+  const router = useRouter();
+
+  const currentAccount = useCurrentAccount();
+
   const agentDropdownRef = useRef(null);
+
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const backgroundColor = `rgba(0, 0, 0, ${scrollProgress})`;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const viewportHeight = window.innerHeight - 300;
+      const progress = Math.min(scrollPosition / viewportHeight, 1);
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleOnclickLi = agent => {
     setSelectedAgent(agent);
     setAgentDropdownOpen(false);
     setMobileMenuOpen(false);
+
+    router.push(`/agent/overview/${agent}`);
   };
 
   const handleClickOutside = event => {
@@ -37,7 +72,12 @@ const Navbar = () => {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 w-full transition duration-300 bg-transparent z-50">
+    <header
+      className={clsx(
+        'sticky top-0 left-0 w-full transition duration-300 z-50 bg-transparent',
+      )}
+      style={{ backgroundColor: backgroundColor }}
+    >
       <div className="container mx-auto flex justify-between items-center p-4">
         <Link href="/" passHref>
           <div className="flex items-center">
@@ -80,30 +120,16 @@ const Navbar = () => {
             </button>
             {agentDropdownOpen && (
               <ul className="absolute top-full left-0 mt-2 w-40 bg-white text-black rounded-lg shadow-lg z-10">
-                <li>
-                  <div
-                    className="block px-4 py-2 hover:bg-green-400/80 rounded-t-lg cursor-pointer"
-                    onClick={() => handleOnclickLi('cortez')}
-                  >
-                    Cortez
-                  </div>
-                </li>
-                <li>
-                  <div
-                    className="block px-4 py-2 hover:bg-green-400/80 cursor-pointer"
-                    onClick={() => handleOnclickLi('akira')}
-                  >
-                    Akira
-                  </div>
-                </li>
-                <li>
-                  <div
-                    className="block px-4 py-2 hover:bg-green-400/80 rounded-b-lg cursor-pointer"
-                    onClick={() => handleOnclickLi('bale')}
-                  >
-                    Bale
-                  </div>
-                </li>
+                {AVAILABLE_AGENT_V2.map(agent => (
+                  <li key={agent}>
+                    <div
+                      className="block px-4 py-2 hover:bg-green-400/80 rounded-t-lg cursor-pointer capitalize"
+                      onClick={() => handleOnclickLi(agent)}
+                    >
+                      {agent}
+                    </div>
+                  </li>
+                ))}
               </ul>
             )}
           </div>
@@ -111,26 +137,33 @@ const Navbar = () => {
 
         {/* desktop */}
         <div className="hidden md:block">
-          {!accountId ? (
+          {!currentAccount ? (
             <button
-              className={`flex items-center space-x-2 bg-white hover:bg-primary text-black px-4 py-2 rounded transition duration-300 ease-in-out ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-              onClick={() => modal.show()}
-              disabled={loading}
+              className={clsx(
+                `flex items-center space-x-2 bg-white hover:bg-primary text-black px-4 py-2 rounded transition duration-300 ease-in-out`,
+                connectionStatus === 'connecting' && 'cursor-not-allowed',
+              )}
+              onClick={() => setIsModalOpen(true)}
+              disabled={connectionStatus === 'connecting'}
             >
               <FaWallet className="text-lg" />
-              <span>Connect Wallet</span>
+              <span>
+                {connectionStatus === 'connecting'
+                  ? 'Connecting'
+                  : 'Connect Wallet'}
+              </span>
             </button>
           ) : (
             <div className="flex gap-x-8">
               <p>
-                Welcome, <span className="text-primary">{accountId}</span>
-              </p>
-              <p>
-                Tokens: <span className="text-primary">{tokens}</span>
+                Welcome,{' '}
+                <span className="text-primary">
+                  {truncateAddress(currentAccount.address)}
+                </span>
               </p>
               <button
                 className="border-2 border-red-500 px-2 text-red-500 rounded-md hover:bg-red-500 hover:text-white transition duration-300"
-                onClick={signOut}
+                onClick={disconnect}
               >
                 Sign Out
               </button>
@@ -148,26 +181,32 @@ const Navbar = () => {
 
               {/* mobile wallet section */}
               <div className="pt-4 border-t border-gray-700 mt-4">
-                {!accountId ? (
+                {!currentAccount ? (
                   <button
-                    className={`flex items-center space-x-2 bg-white hover:bg-primary text-black px-4 py-2 rounded transition duration-300 ease-in-out w-full ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-                    onClick={() => modal.show()}
-                    disabled={loading}
+                    className={clsx(
+                      `flex items-center space-x-2 bg-white hover:bg-primary text-black px-4 py-2 rounded transition duration-300 ease-in-out w-full`,
+                      connectionStatus === 'connecting' && 'cursor-not-allowed',
+                    )}
+                    onClick={() => setIsModalOpen(true)}
                   >
                     <FaWallet className="text-lg" />
-                    <span>Connect Wallet</span>
+                    <span>
+                      {connectionStatus === 'connecting'
+                        ? 'Connecting'
+                        : 'Connect Wallet'}
+                    </span>
                   </button>
                 ) : (
                   <div className="flex flex-col gap-y-4 text-white">
                     <p>
-                      Welcome, <span className="text-primary">{accountId}</span>
-                    </p>
-                    <p>
-                      Tokens: <span className="text-primary">{tokens}</span>
+                      Welcome,{' '}
+                      <span className="text-primary">
+                        {truncateAddress(currentAccount.address)}
+                      </span>
                     </p>
                     <button
                       className="border-2 border-red-500 px-2 py-1 text-red-500 rounded-md hover:bg-red-500 hover:text-white transition duration-300"
-                      onClick={signOut}
+                      onClick={disconnect}
                     >
                       Sign Out
                     </button>

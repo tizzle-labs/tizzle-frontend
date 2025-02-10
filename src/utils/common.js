@@ -1,4 +1,3 @@
-import { utils } from 'near-api-js';
 import { FaInfoCircle, FaQuestionCircle, FaRobot, FaSun } from 'react-icons/fa';
 
 export const envPreset = agentPath => {
@@ -46,11 +45,63 @@ export const agentSuggentions = agentName => {
         { text: 'Why do you work at Tizzle?', icon: <FaSun /> },
         { text: 'Give me a guess.', icon: <FaRobot /> },
       ];
+    case 'jordan':
+      return [
+        {
+          text: "Bro, I'm stressed out. My portfolio is red. Is this the end of crypto as we know it?",
+          icon: <FaQuestionCircle />,
+        },
+        {
+          text: "Dude, Bitcoin just dropped 10%! I'm freaking out!",
+          icon: <FaInfoCircle />,
+        },
+        { text: 'Broh, meme coin are crazy', icon: <FaSun /> },
+        {
+          text: "I think I'm gonna sell all my crypto. This market is too stressful",
+          icon: <FaRobot />,
+        },
+      ];
+    case 'isaac':
+      return [
+        {
+          text: 'How do I write a smart contract on Sui?',
+          icon: <FaQuestionCircle />,
+        },
+        {
+          text: 'What are the key differences between Sui and Solana?',
+          icon: <FaInfoCircle />,
+        },
+        {
+          text: 'What are the best resources for learning Sui development?',
+          icon: <FaSun />,
+        },
+        {
+          text: 'How do I integrate with the Sui API?',
+          icon: <FaRobot />,
+        },
+      ];
+    case 'mike':
+      return [
+        {
+          text: 'What is the difference between RSI and MACD indicators?',
+          icon: <FaQuestionCircle />,
+        },
+        {
+          text: 'How do liquidity pools work in decentralized exchanges?',
+          icon: <FaInfoCircle />,
+        },
+        {
+          text: 'What are the main differences between Proof of Work and Proof of Stake?',
+          icon: <FaSun />,
+        },
+        {
+          text: 'How do whale movements affect cryptocurrency prices?',
+          icon: <FaRobot />,
+        },
+      ];
     default:
-      break;
+      return [];
   }
-
-  return suggestions;
 };
 
 export const prettyTruncate = (amount, decimals = 2) => {
@@ -59,10 +110,9 @@ export const prettyTruncate = (amount, decimals = 2) => {
   return truncated;
 };
 
-export const formatNearAmount = amount => {
-  return utils.format.formatNearAmount(amount);
-};
-
-export const parseNearAmount = amount => {
-  return utils.format.parseNearAmount(amount);
+export const truncateAddress = address => {
+  const truncateRegex = /^(0x[a-zA-Z0-9]{4})[a-zA-Z0-9]+([a-zA-Z0-9]{4})$/;
+  const match = address.match(truncateRegex);
+  if (!match) return address;
+  return `${match[1]}…${match[2]}`;
 };
